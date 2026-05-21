@@ -1,13 +1,11 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
+import Navbar from "@/components/navbar/navbar";
+import { Toaster } from "@/components/ui/sonner";
+import Providers from "./providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
   subsets: ["latin"],
 });
 
@@ -18,11 +16,21 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`${inter.className}`} suppressHydrationWarning>
+      <body className="min-h-full w-screen flex flex-col antialiased">
+        <Providers>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
+            <main className="py-15 overflow-y-auto">{children}</main>
+            <Toaster richColors position="top-center" />
+          </ThemeProvider>
+        </Providers>
+      </body>
     </html>
   );
 }
