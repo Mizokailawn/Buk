@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -50,8 +50,21 @@ const FORM_OPTIONS = {
   fuel: ["Petrol", "Diesel", "Other"],
 
   transmission: ["Manual", "Automatic"],
-};
 
+  district : [
+    "Aizawl",
+    "Lunglei",
+    "Champhai",
+    "Serchhip",
+    "Kolasib",
+    "Mamit",
+    "Siaha",
+    "Lawngtlai",
+    "Hnahthial",
+    "Saitual",
+    "Khawzawl",
+  ]
+}
 // ======================================================
 // ZOD SCHEMA
 // ======================================================
@@ -88,6 +101,12 @@ const vehicleSchema = z.object({
   whatsapp: z
     .string()
     .regex(/^[0-9]{10}$/, "WhatsApp number must be 10 digits"),
+
+  seller: z
+    .string()
+    .trim()
+    .min(2, "Seller name must be at least 2 characters")
+    .max(18, "Seller name must be at most 18 characters"),
 });
 
 // ======================================================
@@ -118,12 +137,16 @@ export default function VehicleSellForm() {
       description: "",
       phone: "",
       whatsapp: "",
+      seller: "",
     },
 
     mode: "onSubmit",
   });
 
-  const phoneValue = form.watch("phone");
+  const phoneValue = useWatch({
+    control: form.control,
+    name: "phone",
+  });
 
   // ======================================================
   // Whatsapp checked
@@ -205,7 +228,7 @@ export default function VehicleSellForm() {
 
       toast.success("Vehicle uploaded successfully ✅");
 
-      router.push(`/rides/${vehicleId}`);
+      router.push(`/vehicle/${vehicleId}`);
 
       // ======================================================
       // RESET FORM
@@ -310,26 +333,26 @@ export default function VehicleSellForm() {
           {errors.price && (
             <p className="text-sm text-red-500">{errors.price.message}</p>
           )}
-        </div>
+        </div> 
 
         {/* ======================================================
-            CITY
+            SELLER NAME
         ====================================================== */}
 
         <div className="space-y-2">
-          <label className="text-sm font-medium">District</label>
+          <label className="text-sm font-medium">Seller Name</label>
 
           <Input
             autoCapitalize="words"
             style={{ textTransform: "capitalize" }}
-            placeholder="Aizawl"
-            {...register("city")}
+            placeholder="Motor zuartu hming"
+            {...register("seller")}
           />
 
-          {errors.city && (
-            <p className="text-sm text-red-500">{errors.city.message}</p>
+          {errors.seller && (
+            <p className="text-sm text-red-500">{errors.seller.message}</p>
           )}
-        </div>
+        </div>       
 
         {/* ======================================================
             DESCRIPTION
@@ -410,6 +433,40 @@ export default function VehicleSellForm() {
             <p className="text-sm text-red-500">{errors.whatsapp.message}</p>
           )}
         </div>
+
+        {/* ======================================================
+            CITY
+        ====================================================== */}
+
+        <div className="space-y-1 w-full">
+            <label className="block text-sm font-medium">
+              District
+            </label>
+
+            <Controller
+              control={control}
+              name="city"
+              render={({ field }) => (
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select District" />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    {FORM_OPTIONS.district.map((d) => (
+                      <SelectItem key={d} value={String(d)}>
+                        {d}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+
+            {errors.district && (
+              <p className="text-sm text-red-500">{errors.district.message}</p>
+            )}
+          </div>
 
         {/* ======================================================
             WHEELS + REGISTRATION + FUELTYPE + TRANSMISSION
