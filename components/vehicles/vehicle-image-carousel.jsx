@@ -9,9 +9,9 @@ import { useState } from "react";
 export default function VehicleImageCarousel({ vehicle }) {
   const [fullscreenOpen, setFullscreenOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-
+  
   const images = vehicle?.vehicle_images || [];
-  console.log("Vehicle images: ", images);
+  
   if (!images || images.length === 0) {
     return (
       <div className="w-full h-64 bg-gray-200 flex items-center justify-center">

@@ -1,4 +1,4 @@
-import VehicleCard from "../cars/car-card";
+import VehicleCard from "../vehicles/car-card";
 
 const ListingsGrid = ({ listings }) => {
   return (
@@ -12,7 +12,7 @@ const ListingsGrid = ({ listings }) => {
             console.log("Skipping invalid vehicle data: ", vehicle);
             return null; // Skip rendering for this item
           }
-          return <VehicleCard key={vehicle.id} vehicles={vehicle} />;
+          return <VehicleCard key={vehicle.id} vehicle={vehicle} />;
         })}
       </div>
     </div>

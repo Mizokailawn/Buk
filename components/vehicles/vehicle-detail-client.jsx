@@ -14,7 +14,8 @@ export default function VehicleDetailClient({
   /*
     Instantly uses hydrated cache
   */
-  const { data: vehicle, isError, error } = useVehicle(id);  
+  const { data: vehicle, isError, error } = useVehicle(id);
+  
 
     if (isError) {
     return <div className="flex h-full w-full justify-center items-center">

@@ -6,6 +6,11 @@ const hostname = new URL(supabaseUrl).hostname;
 const nextConfig = {
   /* config options here */
   reactCompiler: true,
+
+  // Enable cache
+  cacheComponents: true,
+
+  // Images
   images: {
     remotePatterns: [
       {
