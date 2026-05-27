@@ -140,8 +140,7 @@ export default function ImageProcessor({ onImagesReady }) {
             disabled={isProcessing}
             type="file"
             multiple
-            accept="image/*"
-            capture="environment"
+            accept="image/*"            
             onChange={handleSelect}
             className="hidden"
           />
