@@ -6,15 +6,15 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin } from "lucide-react";
 
-function VehicleCard({ vehicles }) {
+function VehicleCard({ vehicle }) {
   return (
-    <Link href={`/vehicle/${vehicles.id}`} className="block">
+    <Link href={`/vehicle/${vehicle?.id}`} className="block">
       <Card className="overflow-hidden aspect-square rounded-2xl bg-card shadow-sm hover:shadow-md transition-all cursor-pointer gap-1 pt-0 pb-2">
         {/* IMAGE */}
         <div className="relative w-full h-full overflow-hidden">
           <Image
-            src={vehicles.thumbnail_url || "/placeholder-car.jpg"}
-            alt={vehicles.model}
+            src={vehicle?.thumbnail_url || "/placeholder-car.jpg"}
+            alt={vehicle?.model}
             fill
             className="object-cover hover:scale-105 transition-transform duration-300"
             sizes="(max-width: 400px) 100vw, 33vw"
@@ -25,23 +25,23 @@ function VehicleCard({ vehicles }) {
           <div className="flex">
             {/* BRAND */}
             <h3 className="font-medium text-xs line-clamp-1 text-card-foreground px-1 capitalize">
-              {vehicles.brand}
+              {vehicle?.brand}
             </h3>
             {/* MODEL */}
             <h3 className="font-medium text-xs line-clamp-1 text-card-foreground px-1 capitalize">
-              {vehicles.model}
+              {vehicle?.model}
             </h3>
           </div>
           <div className="flex justify-between items-center px-1">
             {/* PRICE */}
             <p className="text-sm font-semibold text-purple-400">
-              ₹{Number(vehicles.price).toLocaleString("en-IN")}
+              ₹{Number(vehicle?.price).toLocaleString("en-IN")}
             </p>
 
             {/* CITY */}
             <p className="flex text-xs text-muted-foreground gap-0.5 items-center capitalize">
               <MapPin className="h-3 w-3" />
-              {vehicles.city}
+              {vehicle?.city}
             </p>
           </div>
         </CardContent>

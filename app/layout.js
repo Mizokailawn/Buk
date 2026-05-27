@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar/navbar";
 import { Toaster } from "@/components/ui/sonner";
 import Providers from "./providers";
+import { Suspense } from "react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,7 +26,9 @@ export default function RootLayout({ children }) {
             enableSystem
             disableTransitionOnChange
           >
-            <Navbar />
+            <Suspense>
+              <Navbar />
+            </Suspense>
             <main className="py-15 overflow-y-auto">{children}</main>
             <Toaster richColors position="top-center" />
           </ThemeProvider>

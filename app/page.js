@@ -1,17 +1,9 @@
-export const revalidate = 60;
-
 import HeroSection from "@/components/homepage/herosection";
 import Rides from "@/components/homepage/rides";
 import { getHomePageListings } from "@/lib/fetchrides/fetchRides";
+import { Suspense } from "react";
 
-export default async function Home() {
-  let vehicles = [];
-
-  try {
-    vehicles = await getHomePageListings();
-  } catch (error) {
-    console.error("Error fetching vehicles for homepage: ", error.message);
-  }
+export default async function Home() {  
 
   return (
     <div className="flex flex-col min-h-screen bg-background gap-4 w-full">
@@ -19,7 +11,7 @@ export default async function Home() {
         <HeroSection />
       </div>
       <div>
-        <Rides vehicles={vehicles} />
+        <Rides />
       </div>
     </div>
   );

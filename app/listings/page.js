@@ -1,17 +1,24 @@
-import ListingsGrid from "@/components/listings/listingsgrid"
-import { getExploreListings } from "@/lib/fetchrides/fetchRides"
+import SkeletonCard from "@/components/skeletons/skeletonCard";
+import ListingsGrid from "@/components/listings/listingsgrid";
+import ListingsWrapper from "@/components/listings/listingsgridwrapper";
+import { getExploreListings } from "@/lib/fetchrides/fetchRides";
+import { Suspense } from "react";
 
-export default async function ListingsPage () {
-    let listings = []
+export default async function ListingsPage() {
+  // let listings = []
 
-    try {
-        listings = await getExploreListings()
-    } catch (error) {
-        console.error("Error fetching explore listings: ", error)
-    }
+  // try {
+  //     listings = await getExploreListings()
+  // } catch (error) {
+  //     console.error("Error fetching explore listings: ", error)
+  // }
 
   return (
-    <ListingsGrid listings={listings} />
-  )
+    <div>
+      <Suspense fallback={<SkeletonCard />}>
+        <ListingsWrapper />
+      </Suspense>
+    </div>
+    // <ListingsGrid listings={listings} />
+  );
 }
-
