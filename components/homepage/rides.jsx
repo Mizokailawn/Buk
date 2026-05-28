@@ -2,8 +2,8 @@ import { Suspense } from "react";
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import SkeletonCard from "../skeletons/skeletonCard";
 import RidesClient from "./ridesclient";
+import VehicleSkeletonCard from "../skeletons/vehicle-skeleton-card";
 
 const Rides = () => {
   return (
@@ -22,10 +22,10 @@ const Rides = () => {
         </Button>
       </div>
       <div>
-        <Suspense fallback={<SkeletonCard />}>
+        <Suspense fallback={<VehicleSkeletonCard />}>
           <RidesClient />
         </Suspense>
-      </div>      
+      </div>
     </div>
   );
 };

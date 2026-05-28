@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Carousel from "../carousel";
+import Carousel from "../shared/carousel";
 import { SwiperSlide } from "swiper/react";
 import FullscreenVehicleGallery from "./fullscreen-image";
 import { useState } from "react";

@@ -2,14 +2,14 @@ import React from "react";
 import {
   Sheet,
   SheetClose,
-  SheetContent,  
-  SheetFooter,  
+  SheetContent,
+  SheetFooter,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AuthButton } from "@/components/auth/auth-button";
-import { ModeToggle } from "@/components/theme-toggle";
+import { ModeToggle } from "@/components/shared/theme-toggle";
 import { UserCircle } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
@@ -33,8 +33,10 @@ export default function BotNavMenu() {
 
           {/* Account */}
           <div className="flex flex-col gap-4 justify-center">
-            <p className="text-md font-medium text-muted-foreground items-center justify-center">Account</p>
-            <Separator />                        
+            <p className="text-md font-medium text-muted-foreground items-center justify-center">
+              Account
+            </p>
+            <Separator />
             <div className="flex gap-2">
               <SheetClose asChild>
                 <Link href="/profile" className="flex items-center gap-3">
@@ -42,7 +44,7 @@ export default function BotNavMenu() {
                   <span>My Profile</span>
                 </Link>
               </SheetClose>
-            </div>            
+            </div>
             <div className="flex gap-2">
               <SheetClose asChild>
                 <Link href="/recent" className="flex items-center gap-3">
@@ -59,7 +61,6 @@ export default function BotNavMenu() {
                 </Link>
               </SheetClose>
             </div>
-
           </div>
 
           {/* Activity */}
@@ -77,7 +78,7 @@ export default function BotNavMenu() {
             <p className="text-sm font-medium text-muted-foreground">
               Settings
             </p>
-            <div className="space-y-2">              
+            <div className="space-y-2">
               <p>Help</p>
             </div>
           </div>

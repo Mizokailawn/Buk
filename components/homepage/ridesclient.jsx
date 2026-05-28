@@ -1,16 +1,15 @@
-import { GetPublicVehicles } from "@/lib/fetchrides/publicfetch";
+import { GetHomepageVehicles } from "@/lib/queries/vehicles/get-vehicle";
 import VehicleCard from "../vehicles/car-card";
 import { PublicVehiclesError } from "../errors/public-vehicle-error";
 
-export default async function RidesClient() {  
-
-  const response = await GetPublicVehicles();
+export default async function RidesClient() {
+  const response = await GetHomepageVehicles();
 
   // 1. Handle the cached error state explicitly
   if (!response.success) {
     return <PublicVehiclesError message={response.error} />;
   }
-  const vehicles = response.data;  
+  const vehicles = response.data;
 
   // 2. Handle a clean empty state (Database works, but has 0 cars matching)
   if (vehicles.length === 0) {

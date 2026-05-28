@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 
 import { sendOtpAction, verifyOtpAction } from "@/action/auth";
 import { Spinner } from "../ui/spinner";
-import { SpinnerButton } from "../spinnerbutton";
+import { SpinnerButton } from "../shared/spinnerbutton";
 
 export function PhoneAuth({ className, ...props }) {
   const [phone, setPhone] = useState("");
@@ -183,7 +183,7 @@ export function PhoneAuth({ className, ...props }) {
     if (!formatted) {
       toast.error("Session expired. Please enter phone again.");
       resetFlow();
-      lockRef.current=false;
+      lockRef.current = false;
       setVerifying(false);
       return;
     }
@@ -200,7 +200,7 @@ export function PhoneAuth({ className, ...props }) {
 
       if (res && res.error) {
         toast.error(res.error); // 🔥 CHANGED (real error)
-        setError(res.error);        
+        setError(res.error);
         return;
       }
 

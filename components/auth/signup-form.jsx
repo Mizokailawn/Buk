@@ -24,7 +24,7 @@ import { signUpAction } from "@/action/auth";
 import { Input } from "../ui/input";
 import { Smartphone } from "lucide-react";
 import { GoogleSignInButton } from "./googleSignInButton";
-import { SpinnerButton } from "../spinnerbutton";
+import { SpinnerButton } from "../shared/spinnerbutton";
 import { FcSmartphoneTablet } from "react-icons/fc";
 
 export function SignupForm({ ...props }) {
@@ -86,7 +86,6 @@ export function SignupForm({ ...props }) {
         "Account created successfully! Please check your email to verify your account.",
       );
       router.push("/login");
-      
     } catch (error) {
       console.error("Error signing up:", error.message);
       setError("An unexpected error occurred. Please try again.");
@@ -136,7 +135,7 @@ export function SignupForm({ ...props }) {
                 type="email"
                 placeholder="m@example.com"
                 className={getInputStyle(debouncedEmail, isEmailValid)}
-              />              
+              />
             </Field>
             <Field>
               <FieldLabel htmlFor="password">Password</FieldLabel>
@@ -175,22 +174,25 @@ export function SignupForm({ ...props }) {
                 {/* <Button type="submit" disabled={isLoading || !isFormValid}>
                   {isLoading ? "Creating Account..." : "Create Account"}
                 </Button>                 */}
-                <SpinnerButton type="submit" 
-                loadingText="Creating account..." 
-                isLoading={isLoading}
+                <SpinnerButton
+                  type="submit"
+                  loadingText="Creating account..."
+                  isLoading={isLoading}
                 >
                   Create Account
                 </SpinnerButton>
                 <GoogleSignInButton />
                 <Button variant="outline">
-                  <Link href="/phone" className="flex gap-3 items-center justify-center">
+                  <Link
+                    href="/phone"
+                    className="flex gap-3 items-center justify-center"
+                  >
                     <FcSmartphoneTablet className="h-4 w-4" />
                     Continue with Phone
                   </Link>
                 </Button>
                 <FieldDescription className="px-6 text-center">
-                  Already have an account?{" "}
-                  <Link href="/login">Sign in</Link>
+                  Already have an account? <Link href="/login">Sign in</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

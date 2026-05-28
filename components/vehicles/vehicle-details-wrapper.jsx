@@ -1,13 +1,11 @@
-// app/(main)/vehicle/[id]/page.jsx
-
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getQueryClient } from "@/lib/tanstack/get-query-client";
 import { queryKeys } from "@/lib/tanstack/query-keys";
 import VehicleDetailClient from "@/components/vehicles/vehicle-detail-client";
-import { GetPublicVehicleById } from "@/lib/fetchrides/publicfetch";
+import { GetPublicVehicleById } from "@/lib/queries/vehicles/get-vehicle";
 
-export async function VehicleDetailsWrapper({params}) {
-  const { id } = await params
+export async function VehicleDetailsWrapper({ params }) {
+  const { id } = await params;
   const queryClient = getQueryClient();
 
   /*
