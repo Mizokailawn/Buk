@@ -2,14 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Spinner } from "./ui/spinner";
+import { Spinner } from "../ui/spinner";
 
 export function SpinnerButton({
   children,
   isLoading = false,
-  spinner = <Spinner className="w-4 h-4"/>,
+  spinner = <Spinner className="w-4 h-4" />,
   icon,
-  loadingText= "Processing...",
+  loadingText = "Processing...",
   className,
   disabled,
   ...props
@@ -17,10 +17,7 @@ export function SpinnerButton({
   return (
     <Button
       disabled={isLoading || disabled}
-      className={cn(
-        "flex items-center justify-center gap-2 w-full",
-        className
-      )}
+      className={cn("flex items-center justify-center gap-2 w-full", className)}
       {...props}
     >
       {/* Icon / Spinner */}

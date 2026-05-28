@@ -23,7 +23,7 @@ import { toast } from "sonner";
 import { PasswordInput } from "./password-input";
 import { loginAction } from "@/action/auth";
 import { createClient } from "@/lib/supabase/client";
-import { SpinnerButton } from "../spinnerbutton";
+import { SpinnerButton } from "../shared/spinnerbutton";
 import { LogInIcon } from "lucide-react";
 import { GoogleSignInButton } from "./googleSignInButton";
 import { Smartphone } from "lucide-react";

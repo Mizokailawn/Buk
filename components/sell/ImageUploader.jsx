@@ -9,9 +9,8 @@ import {
 } from "@dnd-kit/sortable";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { Upload, X } from "lucide-react";
-import { processImage } from "@/lib/imageprocesssing/imageProcessing";
+import { processImage } from "@/lib/vehicle/imageprocesssing/imageProcessing";
 import { toast } from "sonner";
 import { Spinner } from "../ui/spinner";
 import SortableImage from "./sortableimage";
@@ -140,7 +139,7 @@ export default function ImageProcessor({ onImagesReady }) {
             disabled={isProcessing}
             type="file"
             multiple
-            accept="image/*"            
+            accept="image/*"
             onChange={handleSelect}
             className="hidden"
           />
@@ -216,43 +215,6 @@ export default function ImageProcessor({ onImagesReady }) {
                     removeImage={removeImage}
                     isCover={index === 0}
                   />
-                  //   <div
-                  //     key={img.id}
-                  //     className="
-                  //     relative
-                  //     aspect-square
-                  //     overflow-hidden
-                  //     rounded-2xl
-                  //     bg-muted
-                  //     "
-                  //   >
-                  //     <Image
-                  //       src={img.preview}
-                  //       alt="Vehicle image"
-                  //       fill
-                  //       className="object-cover"
-                  //     />
-
-                  //     {/* REMOVE */}
-
-                  //     <button
-                  //       type="button"
-                  //       onClick={() => removeImage(img.id)}
-                  //       className="
-                  //   absolute top-1 right-1
-                  //   flex items-center justify-center
-                  //   w-6 h-6
-                  //   rounded-full
-                  //   bg-background
-                  //   text-foreground
-                  //   backdrop-blur-md
-                  //   hover:bg-black/80
-                  //   transition-colors
-                  // "
-                  //     >
-                  //       <X className="w-4 h-4" />
-                  //     </button>
-                  //   </div>
                 ))}
               </div>
             </SortableContext>

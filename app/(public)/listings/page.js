@@ -1,7 +1,7 @@
-import SkeletonCard from "@/components/skeletons/skeletonCard";
+import SkeletonCard from "@/components/skeletons/vehicle-skeleton-card";
 import ListingsGrid from "@/components/listings/listingsgrid";
 import ListingsWrapper from "@/components/listings/listingsgridwrapper";
-import { getExploreListings } from "@/lib/fetchrides/fetchRides";
+import { getExploreListings } from "@/lib/vehicle/fetchrides/fetchRides";
 import { Suspense } from "react";
 
 export default async function ListingsPage() {

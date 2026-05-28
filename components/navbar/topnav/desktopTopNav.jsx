@@ -3,8 +3,7 @@ import Link from "next/link";
 import TopNavMenu from "./top-nav-menu";
 import { AuthButton } from "@/components/auth/auth-button";
 import SearchBox from "@/components/search/search-box";
-import { ModeToggle } from "@/components/theme-toggle";
-
+import { ModeToggle } from "@/components/shared/theme-toggle";
 
 const DesktopTopNav = ({ user }) => {
   return (

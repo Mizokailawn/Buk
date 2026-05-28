@@ -20,11 +20,11 @@ import { createVehicle, saveVehicleImages } from "@/action/vehicle";
 
 import { toast } from "sonner";
 
-import { uploadImages } from "@/lib/imageprocesssing/uploadImages";
+import { uploadImages } from "@/lib/vehicle/imageprocesssing/uploadImages";
 import { Checkbox } from "../ui/checkbox";
 import { formatIndianPrice } from "@/lib/formatters/formatIndianPrice";
 import ImageProcessor from "./ImageUploader";
-import { SpinnerButton } from "../spinnerbutton";
+import { SpinnerButton } from "../shared/spinnerbutton";
 import { Fuel } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -51,7 +51,7 @@ const FORM_OPTIONS = {
 
   transmission: ["Manual", "Automatic"],
 
-  district : [
+  district: [
     "Aizawl",
     "Lunglei",
     "Champhai",
@@ -63,8 +63,8 @@ const FORM_OPTIONS = {
     "Hnahthial",
     "Saitual",
     "Khawzawl",
-  ]
-}
+  ],
+};
 // ======================================================
 // ZOD SCHEMA
 // ======================================================
@@ -233,7 +233,6 @@ export default function VehicleSellForm() {
       // ======================================================
       // RESET FORM
       // ======================================================
-      
     } catch (err) {
       console.error(err);
 
@@ -333,7 +332,7 @@ export default function VehicleSellForm() {
           {errors.price && (
             <p className="text-sm text-red-500">{errors.price.message}</p>
           )}
-        </div> 
+        </div>
 
         {/* ======================================================
             SELLER NAME
@@ -352,7 +351,7 @@ export default function VehicleSellForm() {
           {errors.seller && (
             <p className="text-sm text-red-500">{errors.seller.message}</p>
           )}
-        </div>       
+        </div>
 
         {/* ======================================================
             DESCRIPTION
@@ -439,34 +438,32 @@ export default function VehicleSellForm() {
         ====================================================== */}
 
         <div className="space-y-1 w-full">
-            <label className="block text-sm font-medium">
-              District
-            </label>
+          <label className="block text-sm font-medium">District</label>
 
-            <Controller
-              control={control}
-              name="city"
-              render={({ field }) => (
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select District" />
-                  </SelectTrigger>
+          <Controller
+            control={control}
+            name="city"
+            render={({ field }) => (
+              <Select onValueChange={field.onChange} value={field.value}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select District" />
+                </SelectTrigger>
 
-                  <SelectContent>
-                    {FORM_OPTIONS.district.map((d) => (
-                      <SelectItem key={d} value={String(d)}>
-                        {d}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-            />
-
-            {errors.district && (
-              <p className="text-sm text-red-500">{errors.district.message}</p>
+                <SelectContent>
+                  {FORM_OPTIONS.district.map((d) => (
+                    <SelectItem key={d} value={String(d)}>
+                      {d}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             )}
-          </div>
+          />
+
+          {errors.district && (
+            <p className="text-sm text-red-500">{errors.district.message}</p>
+          )}
+        </div>
 
         {/* ======================================================
             WHEELS + REGISTRATION + FUELTYPE + TRANSMISSION

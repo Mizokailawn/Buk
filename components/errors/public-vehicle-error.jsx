@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { RevalidatePublicVehicles } from "@/action/cache-revalidation";
-import { SpinnerButton } from "../spinnerbutton";
+import { SpinnerButton } from "../shared/spinnerbutton";
 
 export function PublicVehiclesError({ message }) {
   const [isPending, setIsPending] = useState(false);

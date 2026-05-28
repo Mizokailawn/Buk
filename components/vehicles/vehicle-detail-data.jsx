@@ -142,40 +142,7 @@ export default function VehicleDetailsSection({ vehicle }) {
             )}
           </button>
         )}
-      </div>
-
-      {/* CONTACT CARD */}
-      {/* <div className="rounded-3xl border bg-card p-5 shadow-sm">
-        <div>
-          <h3 className="text-lg font-semibold">
-            Contact Seller
-          </h3>
-
-          <p className="mt-1 text-sm text-muted-foreground">
-            Fast response expected
-          </p>
-        </div>
-
-        <div className="mt-5 grid grid-cols-2 gap-3">
-          <Link
-            href={`tel:${vehicle?.phone}`}
-            className="flex items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-3 font-medium text-primary-foreground transition active:scale-[0.98]"
-          >
-            <Phone className="h-5 w-5" />
-            Call
-          </Link>
-
-          <Link
-            href={`https://wa.me/${vehicle?.whatsapp}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-2xl bg-green-600 px-4 py-3 font-medium text-white transition active:scale-[0.98]"
-          >
-            <MessageCircle className="h-5 w-5" />
-            WhatsApp
-          </Link>
-        </div>
-      </div> */}
+      </div>      
 
       {/* VEHICLE DETAILS */}
       <div className="rounded-3xl border bg-card p-5 shadow-sm">
