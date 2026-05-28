@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar/navbar";
 import { Toaster } from "@/components/ui/sonner";
 import Providers from "./providers";
 import { Suspense } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,7 +30,10 @@ export default function RootLayout({ children }) {
             <Suspense>
               <Navbar />
             </Suspense>
-            <main className="py-15 overflow-y-auto">{children}</main>
+            <main className="py-15 overflow-y-auto">
+              {children}
+              <SpeedInsights />
+            </main>
             <Toaster richColors position="top-center" />
           </ThemeProvider>
         </Providers>
