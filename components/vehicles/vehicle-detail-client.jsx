@@ -1,3 +1,5 @@
+//components/vehicles/vehicle-detail-client.jsx
+
 "use client";
 
 import { useVehicle } from "@/hooks/vehicles/use-vehicles";
