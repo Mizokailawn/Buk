@@ -22,7 +22,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { PasswordInput } from "./password-input";
 import { loginAction } from "@/action/auth";
-import { createClient } from "@/lib/supabase/client";
 import { SpinnerButton } from "../shared/spinnerbutton";
 import { LogInIcon } from "lucide-react";
 import { GoogleSignInButton } from "./googleSignInButton";
@@ -33,20 +32,7 @@ export function LoginForm({ className, ...props }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-
-  // const signInWithGoogle = async () => {
-  //   const supabase = createClient()
-
-  //   try {
-  //     const { error } = await supabase.auth.signInWithOAuth({
-  //       provider : 'google',
-  //       options : {
-  //         redirectTo : `${window.location.origin}/callback`,
-  //       }
-  //     })
-  //   }
-  // }
+  const router = useRouter();  
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -58,13 +44,7 @@ export function LoginForm({ className, ...props }) {
       formdata.append("email", email);
       formdata.append("password", password);
 
-      const res = await loginAction(formdata);
-
-      // Client Side Login with Supabase
-      // const { error } = await supabase.auth.signInWithPassword({
-      //     email,
-      //     password,
-      // });
+      const res = await loginAction(formdata);      
 
       if (res?.error) {
         toast.error(res.error);
@@ -135,13 +115,7 @@ export function LoginForm({ className, ...props }) {
                   className="flex items-center justify-center"
                 >
                   Login
-                </SpinnerButton>
-                {/* <Button disabled={isLoading} type="submit">
-                  {isLoading ? "Logging in..." : "Login"}                  
-                </Button> */}
-                {/* <Button variant="outline" type="button">
-                  Login with Google
-                </Button> */}
+                </SpinnerButton>                
                 <FieldDescription className="text-center">
                   Don&apos;t have an account?{" "}
                   <Link href="/signup">Sign up</Link>

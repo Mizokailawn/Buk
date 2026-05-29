@@ -307,10 +307,7 @@ export function PhoneAuth({ className, ...props }) {
                     loadingText="Verifying..."
                   >
                     Verify OTP
-                  </SpinnerButton>
-                  {/* <Button disabled={loading} type="submit">
-                    {loading ? "Verifying..." : "Verify OTP"}
-                  </Button> */}
+                  </SpinnerButton>                  
 
                   {/* 🔥 Resend OTP */}
                   <Button

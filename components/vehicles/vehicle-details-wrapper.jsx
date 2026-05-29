@@ -1,3 +1,5 @@
+//components/vehicles/vehicle-details-wrapper.jsx
+
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getQueryClient } from "@/lib/tanstack/get-query-client";
 import { queryKeys } from "@/lib/tanstack/query-keys";
