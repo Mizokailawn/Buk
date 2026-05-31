@@ -1,23 +1,17 @@
-import { GetHomepageVehicles } from "@/lib/queries/vehicles/get-vehicle";
 import ListingsGrid from "./listingsgrid";
-import { PublicVehiclesError } from "../errors/public-vehicle-error";
+import CategoryChips from "./CategoryChips";
+import { Suspense } from "react";
+import VehicleSkeletonCard from "../skeletons/vehicle-skeleton-card";
 
-export default async function ListingsWrapper() {
-  
-  const response = await GetHomepageVehicles();
-  const listings = response.data;
-
-  if (!response.success) {
-    return <PublicVehiclesError message={response.error} />;
-  }
-
-  if (listings.length === 0) {
-    return (
-      <div>
-        <p>Sorry! NO vehicles to show at the moment.</p>
-      </div>
-    );
-  }
-
-  return <ListingsGrid listings={listings} />;
+export default async function ListingsWrapper({ searchParams }) {
+  return (
+    <div className="space-y-3">
+      <Suspense>
+        <CategoryChips />
+      </Suspense>      
+      <Suspense fallback={<VehicleSkeletonCard />}>
+        <ListingsGrid searchParams={searchParams} />
+      </Suspense>
+    </div>
+  );
 }
