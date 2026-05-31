@@ -1,4 +1,3 @@
-import React from "react";
 import CardSkeleton from "./card-skeleton";
 
 export default function VehicleSkeletonCard() {
