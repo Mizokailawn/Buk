@@ -3,7 +3,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import Navbar from "@/components/navbar/navbar";
 import { Toaster } from "@/components/ui/sonner";
-import Providers from "./providers";
 import { Suspense } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
@@ -20,23 +19,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.className}`} suppressHydrationWarning>
       <body className="min-h-full w-screen flex flex-col antialiased">
-        <Providers>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Suspense>
-              <Navbar />
-            </Suspense>
-            <main className="py-15 overflow-y-auto">
-              {children}
-              <SpeedInsights />
-            </main>
-            <Toaster richColors position="top-center" />
-          </ThemeProvider>
-        </Providers>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Suspense>
+            <Navbar />
+          </Suspense>
+          <main className="py-15 overflow-y-auto">
+            {children}
+            <SpeedInsights />
+          </main>
+          <Toaster richColors position="top-center" />
+        </ThemeProvider>
       </body>
     </html>
   );

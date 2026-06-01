@@ -2,21 +2,12 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "../ui/button";
+import { VEHICLE_CATEGORIES } from "@/lib/filter/filter-options";
 import {
   useEffect,
   useState,
   useTransition,
 } from "react";
-
-const categories = [
-  { label: "Bikes", value: "bike" },
-  { label: "Scooty", value: "scooty" },
-  { label: "Cars", value: "car" },
-  { label: "SUV", value: "suv" },
-  { label: "Pickup", value: "pickup" },
-  { label: "Truck", value: "truck" },
-  { label: "Van", value: "van" },
-];
 
 export default function CategoryChips() {
   const router = useRouter();
@@ -61,15 +52,14 @@ export default function CategoryChips() {
     }
 
     startTransition(() => {
-      router.push(
-        `/listings?${next.toString()}`
-      );
+      const query = next.toString();
+      router.push(query ? `/listings?${query}` : "/listings");
     });
   }
 
   return (
     <div className="flex gap-2 overflow-x-auto pb-2 md:py-2">
-      {categories.map((category) => (
+      {VEHICLE_CATEGORIES.map((category) => (
         <Button
           key={category.value}
           variant={

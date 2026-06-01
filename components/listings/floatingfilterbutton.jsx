@@ -2,42 +2,33 @@
 
 import { SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
-import FilterSheet from "./FilterSheet";
+import FilterSheet from "./filtersheet";
+import { Button } from "../ui/button";
 
-export default function FloatingFilterButton(
-  props
-) {
-  const [open, setOpen] =
-    useState(false);
+export default function FloatingFilterButton({ filterOptions }) {
+  const [open, setOpen] = useState(false);
 
   return (
     <>
-      <button
+      <Button
         onClick={() => setOpen(true)}
         className="
           fixed
-          bottom-6
+          bottom-16
           right-4
           z-50
           rounded-full
           shadow-lg
-          px-4
-          py-3
-          bg-primary
-          text-white
-          flex
-          items-center
-          gap-2
         "
       >
         <SlidersHorizontal size={18} />
         Filters
-      </button>
+      </Button>
 
       <FilterSheet
         open={open}
         setOpen={setOpen}
-        {...props}
+        filterOptions={filterOptions}
       />
     </>
   );
