@@ -39,10 +39,13 @@ export default function FilterSheet({ open, setOpen, filterOptions }) {
   );
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet 
+    open={open} 
+    onOpenChange={setOpen}
+    className="max-h-[85vh] rounded-t-3xl mx-3 w-[calc(100%-1rem)] bg-background">
       <SheetContent
         side="bottom"
-        className="max-h-[85vh] rounded-t-3xl"
+        className="max-h-[85vh] rounded-t-lg bg-background"
       >
         <SheetHeader className="px-4 py-4">
           <SheetTitle>Filters</SheetTitle>
