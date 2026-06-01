@@ -1,31 +1,13 @@
-//components/vehicles/vehicle-detail-client.jsx
-
 "use client";
 
-import { useVehicle } from "@/hooks/vehicles/use-vehicles";
-import { Spinner } from "../ui/spinner";
 import VehicleDetailData from "./vehicle-detail-data";
 import VehicleImageCarousel from "./vehicle-image-carousel";
 
-export default function VehicleDetailClient({ id }) {
-  /*
-    Instantly uses hydrated cache
-  */
-  const { data: vehicle, isError, error } = useVehicle(id);
-
-  if (isError) {
+export default function VehicleDetailClient({ vehicle }) {
+  if (!vehicle || vehicle.success === false) {
     return (
       <div className="flex h-full w-full justify-center items-center">
         Error occurred while fetching vehicle details.
-        {error.message}
-      </div>
-    );
-  }
-
-  if (!vehicle) {
-    return (
-      <div className="flex h-full w-full justify-center items-center">
-        <Spinner className="h-10 w-10" />
       </div>
     );
   }
