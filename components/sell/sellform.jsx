@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller, useWatch } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import dynamic from "next/dynamic";
+import { Loader2 } from "lucide-react"; // Imported for the spinner
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,97 +17,28 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 
-import { createVehicle, saveVehicleImages } from "@/action/vehicle";
+import { publishVehicleListing } from "@/action/vehicle";
 
 import { toast } from "sonner";
 
 import { uploadImages } from "@/lib/vehicle/imageprocesssing/uploadImages";
 import { Checkbox } from "../ui/checkbox";
 import { formatIndianPrice } from "@/lib/formatters/formatIndianPrice";
-import ImageProcessor from "./ImageUploader";
 import { SpinnerButton } from "../shared/spinnerbutton";
-import { Fuel } from "lucide-react";
 import { useRouter } from "next/navigation";
+import {
+  DEFAULT_SELL_FORM_VALUES,
+  SELL_FORM_OPTIONS,
+} from "./sell-form-options";
+import { vehicleSchema } from "./sell-form-schema";
 
-// ======================================================
-// OPTIONS
-// ======================================================
-
-const FORM_OPTIONS = {
-  wheels: [2, 3, 4, 6, 8, 10, 12],
-
-  registration: [
-    "MZ01",
-    "MZ02",
-    "MZ03",
-    "MZ04",
-    "MZ05",
-    "MZ06",
-    "MZ07",
-    "MZ08",
-    "Other",
-  ],
-
-  fuel: ["Petrol", "Diesel", "Other"],
-
-  transmission: ["Manual", "Automatic"],
-
-  district: [
-    "Aizawl",
-    "Lunglei",
-    "Champhai",
-    "Serchhip",
-    "Kolasib",
-    "Mamit",
-    "Siaha",
-    "Lawngtlai",
-    "Hnahthial",
-    "Saitual",
-    "Khawzawl",
-  ],
-};
-// ======================================================
-// ZOD SCHEMA
-// ======================================================
-
-const vehicleSchema = z.object({
-  brand: z
-    .string()
-    .trim()
-    .min(2, "Brand must be at least 2 characters")
-    .max(18, "Brand must be at most 18 characters"),
-
-  model: z
-    .string()
-    .trim()
-    .min(2, "Model must be at least 2 characters")
-    .max(50, "Model must be at most 50 characters"),
-
-  wheels: z.string().min(1, "Please select wheels"),
-
-  registration: z.string().min(1, "Please select registration"),
-
-  fuel: z.string().min(1, "Please select fuel type"),
-
-  transmission: z.string().min(1, "Please select transmission"),
-
-  price: z.coerce.number().positive("Price must be greater than 0"),
-
-  city: z.string().min(2, "City must be at least 2 characters"),
-
-  description: z.string().max(1000, "Description too long").optional(),
-
-  phone: z.string().regex(/^[0-9]{10}$/, "Phone number must be 10 digits"),
-
-  whatsapp: z
-    .string()
-    .regex(/^[0-9]{10}$/, "WhatsApp number must be 10 digits"),
-
-  seller: z
-    .string()
-    .trim()
-    .min(2, "Seller name must be at least 2 characters")
-    .max(18, "Seller name must be at most 18 characters"),
+const ImageProcessor = dynamic(() => import("./ImageUploader"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex min-h-89 items-center justify-center rounded-3xl border bg-card text-sm text-muted-foreground">
+      Preparing photo uploader...
+    </div>
+  ),
 });
 
 // ======================================================
@@ -116,6 +48,8 @@ const vehicleSchema = z.object({
 export default function VehicleSellForm() {
   const [images, setImages] = useState([]);
   const [formattedPrice, setFormattedPrice] = useState("");
+  const [isWhatsappSame, setIsWhatsappSame] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState("Processing..."); // Default text
   const router = useRouter();
 
   // ======================================================
@@ -124,22 +58,7 @@ export default function VehicleSellForm() {
 
   const form = useForm({
     resolver: zodResolver(vehicleSchema),
-
-    defaultValues: {
-      brand: "",
-      model: "",
-      wheels: "",
-      registration: "",
-      fuel: "",
-      transmission: "",
-      price: "",
-      city: "",
-      description: "",
-      phone: "",
-      whatsapp: "",
-      seller: "",
-    },
-
+    defaultValues: DEFAULT_SELL_FORM_VALUES,
     mode: "onSubmit",
   });
 
@@ -153,6 +72,8 @@ export default function VehicleSellForm() {
   // ======================================================
 
   const handleSameAsPhone = (checked) => {
+    setIsWhatsappSame(checked);
+
     if (checked) {
       form.setValue("whatsapp", phoneValue, {
         shouldValidate: true,
@@ -161,6 +82,14 @@ export default function VehicleSellForm() {
       form.setValue("whatsapp", "");
     }
   };
+
+  useEffect(() => {
+    if (!isWhatsappSame) return;
+
+    form.setValue("whatsapp", phoneValue || "", {
+      shouldValidate: Boolean(phoneValue),
+    });
+  }, [form, isWhatsappSame, phoneValue]);
 
   // ======================================================
   // Forrmatted Price
@@ -189,61 +118,36 @@ export default function VehicleSellForm() {
   // ======================================================
 
   const onSubmit = async (data) => {
-    console.log("Submitting.....:", data);
     if (images.length === 0) {
       toast.error("Upload at least one photo");
       return;
     }
 
-    let vehicleId = null;
-
     try {
-      const payload = {
-        ...data,
+      setSubmitStatus("Uploading photos...");
 
-        wheels: Number(data.wheels),
+      const submissionId = crypto.randomUUID();
+      const uploads = await uploadImages(images, submissionId);
 
-        registration: data.registration.toUpperCase(),
-      };
+      setSubmitStatus("Publishing listing...");
 
-      // ======================================================
-      // CREATE VEHICLE
-      // ======================================================
+      const result = await publishVehicleListing({
+        vehicle: data,
+        images: uploads,
+      });
 
-      const vehicle = await createVehicle(payload);
+      if (!result.success) {
+        throw new Error(result.error);
+      }
 
-      vehicleId = vehicle.id;
+      toast.success("Vehicle listed successfully");
 
-      // ======================================================
-      // UPLOAD IMAGES
-      // ======================================================
-
-      const uploads = await uploadImages(images, vehicleId);
-
-      // ======================================================
-      // SAVE IMAGE REFERENCES
-      // ======================================================
-
-      await saveVehicleImages(vehicleId, uploads);
-
-      toast.success("Vehicle uploaded successfully ✅");
-
-      router.push(`/vehicle/${vehicleId}`);
-
-      // ======================================================
-      // RESET FORM
-      // ======================================================
+      router.push(`/vehicle/${result.vehicleId}`);
     } catch (err) {
       console.error(err);
-
-      // ======================================================
-      // ROLLBACK PLACEHOLDER
-      // ======================================================
-
-      // TODO:
-      // Move rollback logic to server-side eventually
-
-      toast.error("Something went wrong");
+      toast.error(err.message || "Could not publish your listing");
+    } finally {
+      setSubmitStatus("Processing...");
     }
   };
 
@@ -255,7 +159,6 @@ export default function VehicleSellForm() {
     register,
     control,
     handleSubmit,
-
     formState: { errors, isSubmitting },
   } = form;
 
@@ -264,17 +167,34 @@ export default function VehicleSellForm() {
   // ======================================================
 
   return (
-    <div>
-      <h1 className="flex justify-center mb-6 text-2xl font-bold">
+    <div className="relative">
+      {/* ======================================================
+          BACKDROP BLUR OVERLAY (Triggers on submission)
+      ====================================================== */}
+      {isSubmitting && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background/60 backdrop-blur-md animate-in fade-in">
+          <div className="flex flex-col h-50 w-70 items-center justify-center gap-4 rounded-2xl bg-card p-8 shadow-lg border">
+            <Loader2 className="h-10 w-10 animate-spin text-primary" />
+            <p className="text-sm font-medium text-foreground tracking-wide">
+              {submitStatus}
+            </p>
+          </div>
+        </div>
+      )}
+
+      <h1 className="flex justify-center mb-4 text-2xl font-bold">
         Sell Your Ride
       </h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* ======================================================
             IMAGES
         ====================================================== */}
 
-        <ImageProcessor onImagesReady={handleImagesReady} />
+        <ImageProcessor
+          disabled={isSubmitting}
+          onImagesReady={handleImagesReady}
+        />
 
         {/* ======================================================
             MODEL
@@ -283,9 +203,7 @@ export default function VehicleSellForm() {
         <div className="space-y-2">
           <label className="text-sm font-medium">Model</label>
 
-          <Input
-            autoCapitalize="words"
-            style={{ textTransform: "capitalize" }}
+          <Input            
             placeholder="Bolero, Ignis etc..."
             {...register("model")}
           />
@@ -302,9 +220,7 @@ export default function VehicleSellForm() {
         <div className="space-y-2">
           <label className="text-sm font-medium">Brand</label>
 
-          <Input
-            autoCapitalize="words"
-            style={{ textTransform: "capitalize" }}
+          <Input            
             placeholder="Mahindra, Suzuki etc..."
             {...register("brand")}
           />
@@ -315,11 +231,43 @@ export default function VehicleSellForm() {
         </div>
 
         {/* ======================================================
+            CATEGORY
+        ====================================================== */}
+
+        <div className="space-y-1 w-full">
+          <label className="block text-sm font-medium">Category</label>
+
+          <Controller
+            control={control}
+            name="category"
+            render={({ field }) => (
+              <Select onValueChange={field.onChange} value={field.value}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Category" />
+                </SelectTrigger>
+
+                <SelectContent className="capitalize">
+                  {SELL_FORM_OPTIONS.category.map((c) => (
+                      <SelectItem key={c} value={String(c)}>
+                        {c}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
+
+          {errors.category && (
+            <p className="text-sm text-red-500">{errors.category.message}</p>
+          )}
+        </div>
+
+        {/* ======================================================
             PRICE
         ====================================================== */}
 
         <div className="space-y-2">
-          <label className="text-sm font-medium">Price (₹)</label>
+          <label className="text-sm font-medium">Price (INR)</label>
 
           <Input
             type="text"
@@ -395,14 +343,13 @@ export default function VehicleSellForm() {
         ====================================================== */}
 
         <div className="space-y-2">
-          {/* TOP ROW */}
-
           <div className="flex items-center justify-between">
             <label className="text-sm font-medium">WhatsApp</label>
 
             <div className="flex items-center gap-2">
               <Checkbox
                 id="same-as-phone"
+                checked={isWhatsappSame}
                 onCheckedChange={(checked) =>
                   handleSameAsPhone(checked === true)
                 }
@@ -417,8 +364,6 @@ export default function VehicleSellForm() {
             </div>
           </div>
 
-          {/* INPUT */}
-
           <Input
             type="tel"
             inputMode="numeric"
@@ -426,72 +371,35 @@ export default function VehicleSellForm() {
             {...register("whatsapp")}
           />
 
-          {/* ERROR */}
-
           {errors.whatsapp && (
             <p className="text-sm text-red-500">{errors.whatsapp.message}</p>
           )}
         </div>
 
         {/* ======================================================
-            CITY
-        ====================================================== */}
-
-        <div className="space-y-1 w-full">
-          <label className="block text-sm font-medium">District</label>
-
-          <Controller
-            control={control}
-            name="city"
-            render={({ field }) => (
-              <Select onValueChange={field.onChange} value={field.value}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select District" />
-                </SelectTrigger>
-
-                <SelectContent>
-                  {FORM_OPTIONS.district.map((d) => (
-                    <SelectItem key={d} value={String(d)}>
-                      {d}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          />
-
-          {errors.district && (
-            <p className="text-sm text-red-500">{errors.district.message}</p>
-          )}
-        </div>
-
-        {/* ======================================================
-            WHEELS + REGISTRATION + FUELTYPE + TRANSMISSION
+            DISTRICT + REGISTRATION + FUELTYPE + TRANSMISSION
         ====================================================== */}
 
         <div className="grid grid-cols-2 gap-4 justify-center items-center">
-          {/* ======================================================
-              WHEELS
-          ====================================================== */}
-
+          {/* DISTRICT */}
           <div className="space-y-2 w-full">
             <label className="block text-center text-sm font-medium">
-              Wheels
+              District
             </label>
 
             <Controller
               control={control}
-              name="wheels"
+              name="city"
               render={({ field }) => (
                 <Select onValueChange={field.onChange} value={field.value}>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="No. of Wheels" />
+                    <SelectValue placeholder="District" />
                   </SelectTrigger>
 
                   <SelectContent>
-                    {FORM_OPTIONS.wheels.map((w) => (
-                      <SelectItem key={w} value={String(w)}>
-                        {w}
+                    {SELL_FORM_OPTIONS.city.map((c) => (
+                      <SelectItem key={c} value={String(c)}>
+                        {c}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -499,15 +407,12 @@ export default function VehicleSellForm() {
               )}
             />
 
-            {errors.wheels && (
-              <p className="text-sm text-red-500">{errors.wheels.message}</p>
+            {errors.city && (
+              <p className="text-sm text-red-500">{errors.city.message}</p>
             )}
           </div>
 
-          {/* ======================================================
-              REGISTRATION
-          ====================================================== */}
-
+          {/* REGISTRATION */}
           <div className="space-y-2 w-full">
             <label className="block text-center text-sm font-medium">
               Registration
@@ -523,8 +428,8 @@ export default function VehicleSellForm() {
                   </SelectTrigger>
 
                   <SelectContent>
-                    {FORM_OPTIONS.registration.map((r) => (
-                      <SelectItem key={r} value={r}>
+                    {SELL_FORM_OPTIONS.registration.map((r) => (
+                      <SelectItem key={r} value={String(r)}>
                         {r}
                       </SelectItem>
                     ))}
@@ -540,9 +445,7 @@ export default function VehicleSellForm() {
             )}
           </div>
 
-          {/* ======================================================
-             FUELTYPE
-          ====================================================== */}
+          {/* FUELTYPE */}
           <div className="space-y-2 w-full">
             <label className="block text-center text-sm font-medium">
               Fuel Type
@@ -558,7 +461,7 @@ export default function VehicleSellForm() {
                   </SelectTrigger>
 
                   <SelectContent>
-                    {FORM_OPTIONS.fuel.map((f) => (
+                    {SELL_FORM_OPTIONS.fuel.map((f) => (
                       <SelectItem key={f} value={String(f)}>
                         {f}
                       </SelectItem>
@@ -572,9 +475,8 @@ export default function VehicleSellForm() {
               <p className="text-sm text-red-500">{errors.fuel.message}</p>
             )}
           </div>
-          {/* ======================================================
-             TRANSMISSION
-          ====================================================== */}
+
+          {/* TRANSMISSION */}
           <div className="space-y-2 w-full">
             <label className="block text-center text-sm font-medium">
               Transmission
@@ -590,7 +492,7 @@ export default function VehicleSellForm() {
                   </SelectTrigger>
 
                   <SelectContent>
-                    {FORM_OPTIONS.transmission.map((t) => (
+                    {SELL_FORM_OPTIONS.transmission.map((t) => (
                       <SelectItem key={t} value={String(t)}>
                         {t}
                       </SelectItem>
@@ -611,11 +513,11 @@ export default function VehicleSellForm() {
         {/* ======================================================
             SUBMIT
         ====================================================== */}
-
-        {/* <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? "Uploading..." : "Submit"}
-        </Button> */}
-        <SpinnerButton type="submit" isLoading={isSubmitting}>
+        <SpinnerButton
+          type="submit"
+          isLoading={isSubmitting}
+          loadingText="Processing..."
+        >
           Submit
         </SpinnerButton>
       </form>

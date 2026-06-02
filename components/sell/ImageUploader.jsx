@@ -8,28 +8,32 @@ import {
   rectSortingStrategy,
 } from "@dnd-kit/sortable";
 
-import { useState, useEffect } from "react";
-import { Upload, X } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Upload } from "lucide-react";
 import { processImage } from "@/lib/vehicle/imageprocesssing/imageProcessing";
 import { toast } from "sonner";
 import { Spinner } from "../ui/spinner";
 import SortableImage from "./sortableimage";
 
-export default function ImageProcessor({ onImagesReady }) {
+export default function ImageProcessor({ disabled = false, onImagesReady }) {
   const [images, setImages] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const imagesRef = useRef([]);
+
+  function syncImages(nextImages) {
+    imagesRef.current = nextImages;
+    setImages(nextImages);
+    onImagesReady(nextImages);
+  }
 
   // ======================================================
   // CLEANUP
   // ======================================================
 
-  useEffect(() => {
-    return () => {
-      images.forEach((img) => {
-        URL.revokeObjectURL(img.preview);
-      });
-    };
-  }, [images]);
+  useEffect(() => () => {
+    imagesRef.current.forEach((img) => URL.revokeObjectURL(img.preview));
+    imagesRef.current = [];
+  }, []);
 
   // ======================================================
   // SELECT
@@ -39,7 +43,8 @@ export default function ImageProcessor({ onImagesReady }) {
     const files = Array.from(e.target.files);
 
     if (files.length + images.length > 5) {
-      toast("Maximum 5 Photos");
+      toast.error("Maximum 5 photos");
+      e.target.value = "";
       return;
     }
 
@@ -60,8 +65,7 @@ export default function ImageProcessor({ onImagesReady }) {
       );
 
       const updated = [...images, ...processed];
-      setImages(updated);
-      onImagesReady(updated);
+      syncImages(updated);
     } catch (error) {
       toast.error("Failed to process images. Please try again!");
       console.error(error);
@@ -85,9 +89,7 @@ export default function ImageProcessor({ onImagesReady }) {
 
     const reordered = arrayMove(images, oldIndex, newIndex);
 
-    setImages(reordered);
-
-    onImagesReady(reordered);
+    syncImages(reordered);
   }
 
   // ======================================================
@@ -103,8 +105,7 @@ export default function ImageProcessor({ onImagesReady }) {
 
     const updated = images.filter((img) => img.id !== id);
 
-    setImages(updated);
-    onImagesReady(updated);
+    syncImages(updated);
   }
 
   // ======================================================
@@ -136,10 +137,10 @@ export default function ImageProcessor({ onImagesReady }) {
         `}
         >
           <input
-            disabled={isProcessing}
+            disabled={disabled || isProcessing}
             type="file"
             multiple
-            accept="image/*"
+            accept="image/jpeg,image/png,image/webp"
             onChange={handleSelect}
             className="hidden"
           />
