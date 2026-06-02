@@ -32,8 +32,6 @@ export default function SortableImage({
     <div
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
       className="
         relative
         aspect-square
@@ -49,6 +47,21 @@ export default function SortableImage({
         fill
         className="object-cover"
       />
+
+      <button
+        type="button"
+        aria-label="Drag image"
+        {...attributes}
+        {...listeners}
+        className="
+          absolute top-1 left-1
+          flex items-center justify-center
+          w-20 h-20          
+          rounded-xl         
+          text-foreground      
+        "
+      >        
+      </button>
 
       {isCover && (
         <div
@@ -68,12 +81,13 @@ export default function SortableImage({
 
       <button
         type="button"
+        aria-label="Remove image"
         onPointerDown={(e) => e.stopPropagation()}
         onClick={() => removeImage(img.id)}
         className="
           absolute top-1 right-1
           flex items-center justify-center
-          w-8 h-8
+          w-6 h-6
           rounded-full
           bg-background
           text-foreground
