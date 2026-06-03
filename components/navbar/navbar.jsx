@@ -1,22 +1,9 @@
-import { createClient } from "@/lib/supabase/server";
-import BottomNav from "./botnav/bottomnav";
-import { HomeIcon } from "lucide-react";
-import Topnav from "./topnav/topnav";
+import NavbarWrapper from "./navbar-wrapper";
 
-const Navbar = async () => {  
-
-  const supabase = await createClient();
-
-  const { data: {user} } = await supabase.auth.getUser();
-
-
-
+export default function Navbar() {
   return (
     <nav>
-      <Topnav user={user}/>
-      <BottomNav/>
+      <NavbarWrapper />
     </nav>
   );
-};
-
-export default Navbar;
+}

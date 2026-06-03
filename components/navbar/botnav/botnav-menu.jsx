@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import {
   Sheet,
   SheetClose,
@@ -86,7 +86,9 @@ export default function BotNavMenu() {
             <SheetClose asChild>
               <div className="flex gap-4 items-center justify-start">
                 <ModeToggle />
-                <AuthButton />
+                <Suspense>
+                  <AuthButton />
+                </Suspense>
               </div>
             </SheetClose>
           </SheetFooter>

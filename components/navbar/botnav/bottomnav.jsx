@@ -25,13 +25,13 @@ export default function BottomNav() {
               >
                 <Icon
                   className={`transition-colors h-5 w-5 ${
-                    isActive ? "text-purple-400" : "text-muted-foreground"
+                    isActive ? "text-purple-500" : "text-muted-foreground"
                   }`}
                 />
                 <span
                   className={`text-xs mt-1 ${
                   isActive
-                    ? "text-purple-400 font-medium"
+                    ? "text-purple-500 font-medium"
                     : "text-muted-foreground"
                 }`}
                 >
@@ -40,43 +40,7 @@ export default function BottomNav() {
               </Link>            
           );
         })}
-
-        {/* HOME */}
-        {/* <Link href="/" className="flex-1">
-          <div className="nav-item">
-            <div className="icon-wrapper">
-              <Home className="icon-outline w-5 h-5" />
-              <Home className="icon-filled w-5 h-5 fill-current" />
-            </div>            
-          </div>
-        </Link> */}
-
-        {/* SELL (center emphasis) */}
-        {/* <Link href="/sell" className="flex-1">
-          <div className="nav-item sell-item">
-            <div className="icon-wrapper">
-              <PlusSquare className="icon-outline w-5 h-5" />
-              <PlusSquare className="icon-filled w-5 h-5 fill-current" />
-            </div>            
-          </div>
-        </Link> */}
-
-        {/* MENU (Sheet) */}
-        {/* <Sheet>
-          <SheetTrigger asChild>
-            <Button className="nav-item flex-1">
-              <div className="icon-wrapper">
-                <Menu className="icon-outline w-5 h-5" />
-                <Menu className="icon-filled w-5 h-5 fill-current" />
-              </div>              
-            </Button>
-          </SheetTrigger>
-
-          <SheetContent side="right" className="w-[85%] max-w-sm p-0">
-            <SheetTitle></SheetTitle>
-            {/* Your Instagram-style menu */}
-        {/*</SheetContent>
-        </Sheet> */}
+        
         <div className="flex flex-1 flex-col justify-center items-center">
           <BotNavMenu />
           <span className="text-xs text-muted-foreground">

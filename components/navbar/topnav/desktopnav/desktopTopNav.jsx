@@ -4,8 +4,10 @@ import TopNavMenu from "./top-nav-menu";
 import { AuthButton } from "@/components/auth/auth-button";
 import SearchBox from "@/components/search/search-box";
 import { ModeToggle } from "@/components/shared/theme-toggle";
+import AuthButtonWrapper from "@/components/auth/auth-button-wrapper";
+import { Suspense } from "react";
 
-const DesktopTopNav = ({ user }) => {
+const DesktopTopNav = () => {
   return (
     <nav className="hidden md:grid fixed top-0 z-50 w-full items-center grid-cols-3 px-6 py-2 h-16 border-b bg-background/60 backdrop-blur">
       <div className="flex items-center justify-start">
@@ -20,7 +22,9 @@ const DesktopTopNav = ({ user }) => {
       </div>
 
       <div className="flex items-center justify-end gap-4">
-        <AuthButton initialUser={user} />
+        <Suspense>
+          <AuthButtonWrapper />
+        </Suspense>
         <ModeToggle />
         <TopNavMenu />
       </div>

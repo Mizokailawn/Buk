@@ -1,5 +1,5 @@
-import DesktopTopNav from './desktopTopNav'
-import MobileTopNav from './mobileTopNav'
+import DesktopTopNav from './desktopnav/desktopTopNav'
+import MobileTopNav from './mobiletopnav/mobileTopNav'
 
 const Topnav = () => {
   return (
