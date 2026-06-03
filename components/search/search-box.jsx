@@ -23,14 +23,14 @@ const SearchBox = () => {
   }
 
   return (
-    <div className="relative w-full max-w-sm">
+    <div className="relative w-full max-w-30">
       <Input
         type="search"
-        placeholder="Search vehicles (e.g. Bolero, Diesel, 2018)..."
+        placeholder=""
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-        className="pl-3 pr-10 w-full"
+        className="pl-3 pr-10 w-full rounded-full background-transparent"
       />
 
       <Search
