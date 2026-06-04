@@ -30,7 +30,7 @@ const SearchBox = () => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-        className="pl-3 pr-10 w-full rounded-full background-transparent"
+        className="pl-3 pr-10 w-full rounded-full"
       />
 
       <Search
