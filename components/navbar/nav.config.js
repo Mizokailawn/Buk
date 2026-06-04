@@ -2,13 +2,12 @@ import {
     Shield, HelpCircle, FileText, Home, 
     Smartphone, Compass, Search, PlusCircle
  } from "lucide-react";
-import { BsCarFrontFill } from "react-icons/bs";
 
 export const NAV_ITEMS = [
   { label: "Home", href: "/", icon: Home },
   { label: "Explore", href: "/listings", icon: Compass },
   { label: "Sell", href: "/sell", icon: PlusCircle },
-  { label: "Search", href: "/search", icon: Search }
+  { label: "Search", href: "/listings?search=1", icon: Search }
 ];
 
 export const MORE_ITEMS = [

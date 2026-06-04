@@ -5,10 +5,14 @@ import VehicleSkeletonCard from "../skeletons/vehicle-skeleton-card";
 import FloatingFilterButton from "./floatingfilterbutton";
 import ActiveFilterChips from "./activefilterchips";
 import ListingsQueryProvider from "./listings-query-provider";
+import SearchOverlay from "./search-overlay";
 
-export default function ListingsWrapper({ filterOptions }) {
+export default async function ListingsWrapper({ filterOptions }) {
   return (
     <ListingsQueryProvider>
+      <Suspense>
+        <SearchOverlay />
+      </Suspense>
       <div className="space-y-3 pb-20">
         <Suspense>
           <CategoryChips />
