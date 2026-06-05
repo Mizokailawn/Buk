@@ -19,6 +19,12 @@ import {
 } from "@/components/ui/select";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../ui/accordion";
 
 const arrayFromParams = (params, key) =>
   params.get(key)?.split(",").filter(Boolean) || [];
@@ -39,10 +45,11 @@ export default function FilterSheet({ open, setOpen, filterOptions }) {
   );
 
   return (
-    <Sheet 
-    open={open} 
-    onOpenChange={setOpen}
-    className="max-h-[85vh] rounded-t-3xl mx-3 w-[calc(100%-1rem)] bg-background">
+    <Sheet
+      open={open}
+      onOpenChange={setOpen}
+      className="max-h-[85vh] rounded-t-3xl mx-3 w-[calc(100%-1rem)] bg-background"
+    >
       <SheetContent
         side="bottom"
         className="max-h-[85vh] rounded-t-lg bg-background"
@@ -65,6 +72,29 @@ export default function FilterSheet({ open, setOpen, filterOptions }) {
 }
 
 function FilterSheetForm({ currentFilters, filterOptions, params, setOpen }) {
+  const filterSections = [
+    {
+      key: "brand",
+      title: "Brand",
+      values: filterOptions.brands,
+    },
+    {
+      key: "city",
+      title: "District",
+      values: filterOptions.cities,
+    },
+    {
+      key: "fuel",
+      title: "Fuel",
+      values: filterOptions.fuel,
+    },
+    {
+      key: "transmission",
+      title: "Transmission",
+      values: filterOptions.transmission,
+    },
+  ];
+
   const router = useRouter();
   const [draft, setDraft] = useState(currentFilters);
 
@@ -188,14 +218,43 @@ function FilterSheetForm({ currentFilters, filterOptions, params, setOpen }) {
           </div>
         </section>
 
-        <FilterGroup
+        <Accordion type="multiple" className="w-full" defaultValue={["brand"]}>
+          {filterSections.map((section) => (
+            <AccordionItem
+              key={section.key}
+              value={section.key}
+              className="items-center"
+            >
+              <AccordionTrigger className="flex gap-2 items-center">
+                <div className="flex justify-center items-center h-6">
+                  {section.title}
+                </div>
+                {draft[section.key].length > 0 && (
+                <div className="flex h-6 w-6 items-center justify-center text-sm border-1 text-muted-foreground rounded-full">
+                    {draft[section.key].length}
+                </div>
+                )}
+              </AccordionTrigger>
+
+              <AccordionContent>
+                <FilterGroup
+                  values={section.values}
+                  selected={draft[section.key]}
+                  onToggle={(value) => toggleArrayValue(section.key, value)}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+
+        {/* <FilterGroup
           title="Brand"
           values={filterOptions.brands}
           selected={draft.brand}
           onToggle={(value) => toggleArrayValue("brand", value)}
-        />
+        /> */}
 
-        <FilterGroup
+        {/* <FilterGroup
           title="District"
           values={filterOptions.cities}
           selected={draft.city}
@@ -214,16 +273,14 @@ function FilterSheetForm({ currentFilters, filterOptions, params, setOpen }) {
           values={filterOptions.transmission}
           selected={draft.transmission}
           onToggle={(value) => toggleArrayValue("transmission", value)}
-        />
+        /> */}
       </div>
 
       <SheetFooter className="grid grid-cols-2 gap-2 border-t p-4">
         <Button variant="outline" onClick={clearFilters}>
           Clear
         </Button>
-        <Button onClick={applyFilters}>
-          Apply
-        </Button>
+        <Button onClick={applyFilters}>Apply</Button>
       </SheetFooter>
     </>
   );

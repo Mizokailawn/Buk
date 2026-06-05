@@ -16,7 +16,7 @@ export default function FloatingFilterButton({ filterOptions }) {
           fixed
           bottom-16
           right-4
-          z-50
+          z-40
           rounded-full
           shadow-lg
         "

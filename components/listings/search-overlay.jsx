@@ -10,13 +10,13 @@ import { SearchIcon } from "lucide-react";
 import { ChevronLeft } from "lucide-react";
 import { XIcon } from "lucide-react";
 
-export default function SearchOverlay() {
+export default function SearchOverlay({open}) {
   const [query, setQuery] = useState("");
   const searchparams = useSearchParams();
   const router = useRouter();
   const inputRef = useRef(null);
 
-  const isOpen = searchparams.get("search") === "1";
+  const isOpen = searchparams.get("search") === "1" || open;
 
   useEffect(() => {
     if (isOpen) {
@@ -70,7 +70,7 @@ export default function SearchOverlay() {
           className="flex-1 rounded-full pl-10 py-2 bg-background border-2"
         ></Input>
         {query.length > 0 && (
-          <Button variant="ghost" onClick={reset} className="absolute right-2 top-10/18 transform -translate-y-1/2">
+          <Button variant="ghost" onClick={reset} className="absolute right-3 top-10/18 transform -translate-y-1/2">
             <XIcon size="sm" />
             </Button>
         )}
