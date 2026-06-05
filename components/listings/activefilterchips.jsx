@@ -2,6 +2,7 @@
 
 import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Button } from "../ui/button";
 
 const FILTER_LABELS = {
   brand: "Brand",
@@ -11,9 +12,11 @@ const FILTER_LABELS = {
   minPrice: "Min",
   maxPrice: "Max",
   sort: "Sort",
+  category: "Category",
+  q: "Search",
 };
 
-const listKeys = ["brand", "city", "fuel", "transmission"];
+const listKeys = ["q", "category", "brand", "city", "fuel", "transmission"];
 const singleKeys = ["minPrice", "maxPrice", "sort"];
 
 export default function ActiveFilterChips() {
@@ -25,7 +28,7 @@ export default function ActiveFilterChips() {
       (params.get(key)?.split(",").filter(Boolean) || []).map((value) => ({
         key,
         value,
-        label: `${FILTER_LABELS[key]}: ${value}`,
+        label: `${value}`,
       })),
     ),
     ...singleKeys
@@ -49,8 +52,9 @@ export default function ActiveFilterChips() {
     const next = new URLSearchParams(params);
 
     if (listKeys.includes(chip.key)) {
-      const updated = (params.get(chip.key)?.split(",").filter(Boolean) || [])
-        .filter((value) => value !== chip.value);
+      const updated = (
+        params.get(chip.key)?.split(",").filter(Boolean) || []
+      ).filter((value) => value !== chip.value);
 
       if (updated.length) {
         next.set(chip.key, updated.join(","));
@@ -75,23 +79,31 @@ export default function ActiveFilterChips() {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      {chips.map((chip) => (
-        <button
-          key={`${chip.key}-${chip.value}`}
-          onClick={() => removeChip(chip)}
-          className="inline-flex h-7 items-center gap-1 rounded-full border px-2 text-xs text-muted-foreground"
+    <div className="space-y-2">
+      <div className="overflow-x-auto">
+        <div className="grid grid-rows-2 grid-flow-col items-center gap-1">
+          {chips.map((chip) => (
+            <Button
+              key={`${chip.key}-${chip.value}`}
+              variant="outline"
+              onClick={() => removeChip(chip)}
+              className="inline-flex h-7 items-center max-w-40 justify-between gap-1 rounded-full border px-2 text-xs text-muted-foreground"
+            >
+              {chip.label}
+              <X className="h-3 w-3" />
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex justify-center">
+        <Button
+          onClick={clearAll}
+          className="h-7 rounded-full px-2 text-xs font-medium"
         >
-          {chip.label}
-          <X className="h-3 w-3" />
-        </button>
-      ))}
-      <button
-        onClick={clearAll}
-        className="h-7 rounded-full px-2 text-xs font-medium text-primary"
-      >
-        Clear all
-      </button>
+          Clear all
+        </Button>
+      </div>
     </div>
   );
 }
