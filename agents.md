@@ -23,6 +23,12 @@ A peer-to-peer vehicle marketplace platform specifically designed for the Mizora
     - `vehicle/`: Specialized logic like image processing and compression.
 - **`hooks/`**: Custom React hooks (e.g., `debounce.jsx`) for reusable client-side logic.
 
+### Data Flow Example: Search and Filter Integration
+1. The user inputs search terms in `components/search/search-box.jsx` or uses the mobile overlay in `components/listings/search-overlay.jsx`.
+2. The search parameter `q` is added to the URL alongside any selected filters (category, city, fuel, etc.) at `/listings?q=value`.
+3. `components/listings/listingsgrid.jsx` monitors `useSearchParams()` to detect changes.
+4. TanStack Query fetches results dynamically via the API endpoint `/api/vehicles`, which resolves with data from `lib/queries/vehicles/get-vehicle.js` (`GetFilteredVehiclePage`).
+
 ### Data Flow Example: Publishing a Listing
 1. `components/sell/sellform.jsx` collects user input.
 2. `lib/vehicle/imageprocesssing/uploadImages.js` uploads photos to Supabase Storage.
