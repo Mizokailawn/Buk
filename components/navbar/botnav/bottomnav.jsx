@@ -9,7 +9,7 @@ export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t bg-background/80 backdrop-blur-xl">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t bg-background/80 backdrop-blur-lg">
       <div className="flex justify-around items-center h-12 py-2">
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
