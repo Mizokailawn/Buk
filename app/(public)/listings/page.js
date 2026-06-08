@@ -5,7 +5,7 @@ export default async function ListingsPage() {
   const filterOptions = await GetVehicleFilterOptions();
 
   return (
-    <div className="px-3 w-full h-full max-w-6xl mx-auto">
+    <div className="px-2 py-17 w-full min-h-svh max-w-6xl mx-auto">
       <ListingsWrapper filterOptions={filterOptions} />
     </div>
   );

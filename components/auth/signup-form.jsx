@@ -25,7 +25,6 @@ import { Input } from "../ui/input";
 import { Smartphone } from "lucide-react";
 import { GoogleSignInButton } from "./googleSignInButton";
 import { SpinnerButton } from "../shared/spinnerbutton";
-import { FcSmartphoneTablet } from "react-icons/fc";
 
 export function SignupForm({ ...props }) {
   const [email, setEmail] = useState("");
@@ -93,31 +92,12 @@ export function SignupForm({ ...props }) {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  // const signInWithGoogle = async () => {
-  //   setIsGoogleLoading(true);
-  //   const supabase = createClient();
-
-  //   try {
-  //     const { error } = await supabase.auth.signInWithOAuth({
-  //       provider: "google",
-  //       options: {
-  //         redirectTo: `${window.location.origin}/callback`,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     console.error("Error signing in with Google:", error.message);
-  //     toast.error("An unexpected error occurred. Please try again.");
-  //   } finally {
-  //     setIsGoogleLoading(false);
-  //   }
-  // };
+  };  
 
   return (
     <Card {...props}>
       <CardHeader>
-        <CardTitle>Create an account</CardTitle>
+        <CardTitle className="flex justify-center">Create an account</CardTitle>
         <CardDescription className="text-xs">
           Enter your information below to create your account
         </CardDescription>
@@ -133,7 +113,7 @@ export function SignupForm({ ...props }) {
                 onChange={(e) => setEmail(e.target.value)}
                 id="email"
                 type="email"
-                placeholder="m@example.com"
+                placeholder="ruata@mail.com"
                 className={getInputStyle(debouncedEmail, isEmailValid)}
               />
             </Field>
@@ -170,27 +150,24 @@ export function SignupForm({ ...props }) {
               />
             </Field>
             <FieldGroup>
-              <Field>
-                {/* <Button type="submit" disabled={isLoading || !isFormValid}>
-                  {isLoading ? "Creating Account..." : "Create Account"}
-                </Button>                 */}
+              <Field>                
                 <SpinnerButton
-                  type="submit"
+                  type="submit"                  
                   loadingText="Creating account..."
                   isLoading={isLoading}
                 >
                   Create Account
                 </SpinnerButton>
-                <GoogleSignInButton />
-                <Button variant="outline">
+                {/* <GoogleSignInButton /> */}
+                {/* <Button variant="outline">
                   <Link
                     href="/phone"
                     className="flex gap-3 items-center justify-center"
                   >
-                    <FcSmartphoneTablet className="h-4 w-4" />
+                    <Smartphone className="h-4 w-4" />
                     Continue with Phone
                   </Link>
-                </Button>
+                </Button> */}
                 <FieldDescription className="px-6 text-center">
                   Already have an account? <Link href="/login">Sign in</Link>
                 </FieldDescription>

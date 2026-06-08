@@ -1,4 +1,4 @@
-import VehicleDetailClient from "@/components/vehicles/vehicle-detail-client";
+import VehicleDetails from "@/components/vehicles/vehicle-details";
 import { GetPublicVehicleById } from "@/lib/queries/vehicles/get-vehicle";
 
 export async function VehicleDetailsWrapper({ params }) {
@@ -6,6 +6,6 @@ export async function VehicleDetailsWrapper({ params }) {
   const vehicle = await GetPublicVehicleById(id);
 
   return (
-    <VehicleDetailClient vehicle={vehicle} />
+    <VehicleDetails vehicle={vehicle} />
   );
 }

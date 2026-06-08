@@ -1,9 +1,7 @@
-"use client";
-
 import VehicleDetailData from "./vehicle-detail-data";
 import VehicleImageCarousel from "./vehicle-image-carousel";
 
-export default function VehicleDetailClient({ vehicle }) {
+export default function VehicleDetails({ vehicle }) {
   if (!vehicle || vehicle.success === false) {
     return (
       <div className="flex h-full w-full justify-center items-center">

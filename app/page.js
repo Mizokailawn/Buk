@@ -1,17 +1,19 @@
 import HeroSection from "@/components/homepage/herosection";
 import Rides from "@/components/homepage/rides";
-import { getHomePageListings } from "@/lib/vehicle/fetchrides/fetchRides";
-import { Suspense } from "react";
+import { ToggleDemo } from "@/components/toggletest";
 
-export default async function Home() {
+export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-background gap-4 w-full">
+    <div className="flex flex-col min-h-svh bg-background py-20 px-2 gap-4 w-full">
       <div className="w-full">
         <HeroSection />
       </div>
       <div>
         <Rides />
       </div>
+      <footer>
+        <ToggleDemo />
+      </footer>
     </div>
   );
 }

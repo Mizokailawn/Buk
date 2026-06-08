@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
           <Suspense>
             <Navbar />
           </Suspense>
-          <main className="py-15 overflow-y-auto">
+          <main className="overflow-y-auto">
             {children}
             <SpeedInsights />
           </main>
