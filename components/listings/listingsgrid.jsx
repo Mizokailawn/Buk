@@ -4,7 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef } from "react";
 import VehicleCard from "../vehicles/car-card";
-import VehicleSkeletonCard from "../skeletons/vehicle-skeleton-card";
+import VehicleSkeletonCard from "../skeletons/vehicle-skeleton-grid";
 import { Spinner } from "../ui/spinner";
 
 const PAGE_SIZE = 12;
@@ -97,7 +97,7 @@ export default function ListingsGrid() {
 
   return (
     <div className="space-y-4 w-full">
-      <div className="grid gap-3 grid-cols-2 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-7 w-full">
+      <div className="grid gap-2 grid-cols-2 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-7 w-full">
         {vehicles.map((vehicle) => (
           <VehicleCard key={vehicle.id} vehicle={vehicle} />
         ))}

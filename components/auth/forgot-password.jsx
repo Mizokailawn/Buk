@@ -36,7 +36,7 @@ export default function ForgotPasswordForm(
         <CardHeader>
           <CardTitle>Forgot Password</CardTitle>
           <CardDescription>
-            Enter your email to reset your password
+            Enter your registered email to reset your password
           </CardDescription>          
         </CardHeader>
         <CardContent>

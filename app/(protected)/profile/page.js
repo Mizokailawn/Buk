@@ -3,8 +3,10 @@ import { Suspense } from "react";
 
 export default function ProfilePage() {
   return (
-    <Suspense>
-      <UserDetails />
-    </Suspense>
+    <div className="py-17 px-2">
+      <Suspense>
+        <UserDetails />
+      </Suspense>
+    </div>
   );
 }

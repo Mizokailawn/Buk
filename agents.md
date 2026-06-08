@@ -44,3 +44,14 @@ A peer-to-peer vehicle marketplace platform specifically designed for the Mizora
     - Libs/Actions: camelCase (e.g., `get-vehicle.js`, `auth.js`).
 - **Safety**: Always validate input using Zod schemas (found in component folders or shared lib). Check `auth.getUser()` in Server Actions to ensure the user is authorized.
 - **Styling**: Use Tailwind utility classes. Keep complex conditional classes clean with `cn()` utility.
+
+## Performance & Optimization Guidelines
+- **Database & Queries**: Never fetch massive rows in-memory to filter distinct keys. Always use PostgreSQL `DISTINCT` queries or dedicated materialized/lookup tables to keep query responses small and fast.
+- **Concurrency**: Avoid sequential await loops when dealing with multi-file operations (e.g., Supabase Storage moves/uploads). Use `Promise.all()` to fire promises concurrently.
+- **Initial Page Hydration**: To prevent layout shift and "Skeleton loading" flashes, utilize Next.js Server Components to pre-fetch initial query data and pass it to React Query (`initialData` / hydration) when loading listings.
+
+## Progressive Web App (PWA) Standards
+- This marketplace targets Mizoram, where internet can be spotty. Future development must incorporate offline-first compatibility:
+  - Cache static core assets using a Service Worker.
+  - Apply `StaleWhileRevalidate` or `NetworkFirst` cache policies to vehicle API responses so previously viewed cars load instantly and remain browseable offline.
+  - Manifest and service worker must be configured using modern Next.js integrations (such as `@ducanh2912/next-pwa`).

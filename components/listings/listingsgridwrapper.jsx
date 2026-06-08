@@ -1,11 +1,11 @@
 import ListingsGrid from "./listingsgrid";
 import CategoryChips from "./CategoryChips";
 import { Suspense } from "react";
-import VehicleSkeletonCard from "../skeletons/vehicle-skeleton-card";
 import FloatingFilterButton from "./floatingfilterbutton";
 import ActiveFilterChips from "./activefilterchips";
 import ListingsQueryProvider from "./listings-query-provider";
 import SearchOverlay from "./search-overlay";
+import VehicleSkeletonGrid from "../skeletons/vehicle-skeleton-grid";
 
 export default async function ListingsWrapper({ filterOptions }) {
   return (
@@ -20,7 +20,7 @@ export default async function ListingsWrapper({ filterOptions }) {
         <Suspense>
           <ActiveFilterChips />
         </Suspense>
-        <Suspense fallback={<VehicleSkeletonCard />}>
+        <Suspense fallback={<VehicleSkeletonGrid />}>
           <ListingsGrid />
         </Suspense>
         <Suspense>

@@ -21,20 +21,7 @@ export function GoogleSignInButton() {
     }
   };
 
-  return (
-    // <Button onClick={handleSignIn} disabled={loading} variant="outline" className="flex w-full gap-2 items-center justify-center">
-    //     {loading ? (
-    //         <div className="flex gap-3 items-center justify-center">
-    //             <Spinner className="w-4 h-4"/>
-    //             Please Wait...
-    //         </div>
-    //     ) : (
-    //         <div className="flex gap-3 items-center justify-center">
-    //             <FcGoogle className="h-4 w-4" />
-    //             Continue with Google
-    //         </div>
-    //     )}
-    // </Button>
+  return (    
     <SpinnerButton
       onClick={handleSignIn}
       isLoading={loading}
@@ -42,7 +29,7 @@ export function GoogleSignInButton() {
       spinner={<Spinner className="h-4 w-4" />}
       variant="outline"
     >
-      Continue with Google
+      Login with Google
     </SpinnerButton>
   );
 }

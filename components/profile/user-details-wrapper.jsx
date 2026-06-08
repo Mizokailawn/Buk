@@ -19,7 +19,7 @@ export default async function UserDetails() {
   const { success, data: listings = [] } = await GetUserVehicles(user.id);  
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-8">
+    <div className="w-full max-w-6xl mx-auto">
       {/* HEADER SECTION */}
       <UserData user={user} />
 

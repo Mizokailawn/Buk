@@ -1,22 +1,14 @@
-"use client";
-
-import { useState } from "react";
 import {
   Fuel,
   Gauge,
   BadgeCheck,
-  CircleDot,
-  Phone,
-  MessageCircle,
-  ChevronDown,
-  ChevronUp,
+  CircleDot,  
 } from "lucide-react";
-import Link from "next/link";
 import StickyContactBar from "./sticky-contact-bar";
+import VehicleDescription from "./vehicle-description";
+import { Badge } from "../ui/badge";
 
 export default function VehicleDetailsSection({ vehicle }) {
-  const [expanded, setExpanded] = useState(false);
-
   const formatPrice = (price) => {
     if (!price) return "₹0";
 
@@ -54,36 +46,33 @@ export default function VehicleDetailsSection({ vehicle }) {
     });
   };
 
-  const descriptionTooLong = vehicle?.description?.length > 180;
-
   return (
     <section className="flex flex-col px-2 pb-16 pt-3 space-y-6 w-screen">
       {/* HERO SECTION */}
-      <div className="rounded-xl border bg-gradient-to-b from-background to-muted/30 p-3 shadow-sm">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-purple-500">
-              ₹{formatPrice(vehicle?.price)}
-            </h1>
-
-            <h2 className="mt-2 text-xl font-semibold capitalize">
-              {vehicle?.brand} {vehicle?.model}
-            </h2>
-
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-              <span>{vehicle?.fuel}</span>
-
-              <span>•</span>
-
-              <span>{vehicle?.transmission}</span>
-
-              <span>•</span>
-
-              <span>Posted {formatRelativeDate(vehicle?.created_at)}</span>
-            </div>
+      <div className="flex flex-col gap-2 rounded-xl border bg-gradient-to-b from-background to-muted/30 p-3 shadow-sm capitalize">
+        {/* Flex layout with items-center ensures the Badge and Text align perfectly on their vertical middle */}
+        <div className="flex justify-between items-center">
+          <h1 className="text-3xl font-bold tracking-tight text-purple-500">
+            ₹{formatPrice(vehicle?.price)}
+          </h1>
+          <Badge>{vehicle.seller}</Badge>
+        </div>
+        <div>
+          <h2 className="text-xl font-semibold">
+            {vehicle.brand} {vehicle.model}
+          </h2>
+        </div>
+        <div className="flex justify-between text-xs">
+          <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+            <span>{vehicle?.fuel}</span>
+            <span>•</span>
+            <span>{vehicle?.transmission}</span>
+          </div>
+          <div className="text-muted-foreground">
+            <p>{formatRelativeDate(vehicle?.created_at)}</p>
           </div>
         </div>
-      </div>
+      </div>      
 
       {/* QUICK SPECS */}
       <div className="grid grid-cols-2 gap-3 w-full">
@@ -107,42 +96,13 @@ export default function VehicleDetailsSection({ vehicle }) {
 
         <SpecCard
           icon={<CircleDot className="h-5 w-5" />}
-          label="Wheels"
-          value={vehicle?.wheels}
+          label="Category"
+          value={vehicle?.category}
         />
       </div>
 
       {/* DESCRIPTION */}
-      <div className="rounded-xl border bg-card p-3 shadow-sm">
-        <h3 className="text-lg font-semibold">Description</h3>
-
-        <div
-          className={`mt-3 text-sm leading-7 text-muted-foreground transition-all ${
-            expanded ? "" : "line-clamp-4"
-          }`}
-        >
-          {vehicle?.description}
-        </div>
-
-        {descriptionTooLong && (
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary"
-          >
-            {expanded ? (
-              <>
-                Show less
-                <ChevronUp className="h-4 w-4" />
-              </>
-            ) : (
-              <>
-                Read more
-                <ChevronDown className="h-4 w-4" />
-              </>
-            )}
-          </button>
-        )}
-      </div>      
+      <VehicleDescription description={vehicle.description} />
 
       {/* VEHICLE DETAILS */}
       <div className="rounded-3xl border bg-card p-5 shadow-sm">

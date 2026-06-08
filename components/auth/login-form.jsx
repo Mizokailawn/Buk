@@ -68,12 +68,14 @@ export function LoginForm({ className, ...props }) {
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle className="flex justify-center">Login to your account</CardTitle>
+          <GoogleSignInButton />
+          <p className="flex justify-center items-center">OR</p>
           <CardDescription>
             Enter your email below to login to your account
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent>          
           <form
             onSubmit={handleLogin}
             className="grid w-full items-center gap-6"
@@ -123,11 +125,11 @@ export function LoginForm({ className, ...props }) {
               </Field>
             </FieldGroup>
           </form>
-          <div className="flex justify-center items-center text-xs py-2">
+          {/* <div className="flex justify-center items-center text-xs py-2">
             OR
-          </div>
-          <GoogleSignInButton />
-          <Button variant="outline" className="flex w-full">
+          </div> */}
+          {/* <GoogleSignInButton /> */}
+          {/* <Button variant="outline" className="flex w-full">
             <Link
               href="/phone"
               className="flex gap-3 items-center justify-center"
@@ -135,7 +137,7 @@ export function LoginForm({ className, ...props }) {
               <Smartphone className="h-4 w-4" />
               Continue with Phone
             </Link>
-          </Button>
+          </Button> */}
         </CardContent>
         {error && <div className="text-red-500 text-center">{error}</div>}
       </Card>
