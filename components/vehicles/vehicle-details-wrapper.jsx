@@ -6,7 +6,7 @@ export async function VehicleDetailsWrapper({ params }) {
   const vehicle = await GetPublicVehicleById(id);
 
   return (
-    <div className="max-w-6xl">
+    <div className="flex max-w-6xl mx-auto">
       <VehicleDetails vehicle={vehicle} />
     </div>
   );
