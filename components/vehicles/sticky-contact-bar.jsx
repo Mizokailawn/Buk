@@ -42,7 +42,7 @@ export default function StickyContactBar({
             </Link>
 
             <Link
-              href={`https://wa.me/${vehicle?.whatsapp}`}
+              href={`https://wa.me/91${vehicle?.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex h-10 flex-1 items-center justify-center gap-2 rounded-lg bg-green-600/85 px-2 font-medium text-foreground transition active:scale-[0.98]"

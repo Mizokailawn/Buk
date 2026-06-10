@@ -40,7 +40,7 @@ export default function ActiveFilterChips() {
         return {
           key,
           value,
-          label: `${FILTER_LABELS[key]}: ${value}`,
+          label: `${value}`,
         };
       })
       .filter(Boolean),

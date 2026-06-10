@@ -4,7 +4,7 @@ import { ToggleDemo } from "@/components/toggletest";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-svh bg-background py-20 px-2 gap-4 w-full">
+    <div className="flex flex-col min-h-svh bg-background py-20 px-2 gap-4 w-full max-w-6xl mx-auto">
       <div className="w-full">
         <HeroSection />
       </div>
@@ -12,7 +12,7 @@ export default function Home() {
         <Rides />
       </div>
       <footer>
-        <ToggleDemo />
+        {/* <ToggleDemo /> */}
       </footer>
     </div>
   );
