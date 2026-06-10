@@ -4,12 +4,12 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef } from "react";
 import VehicleCard from "../vehicles/car-card";
-import VehicleSkeletonCard from "../skeletons/vehicle-skeleton-grid";
 import { Spinner } from "../ui/spinner";
+import VehicleSkeletonGrid from "../skeletons/vehicle-skeleton-grid";
 
 const PAGE_SIZE = 12;
 
-export default function ListingsGrid() {
+export default function ListingsGrid({initialData}) {
   const searchParams = useSearchParams();
   const sentinelRef = useRef(null);
   const filterKey = searchParams.toString();
@@ -32,6 +32,10 @@ export default function ListingsGrid() {
   } = useInfiniteQuery({
     queryKey: ["vehicles", "infinite-list", filterKey],
     initialPageParam: 0,
+    initialData: {
+      pages: [initialData],
+      pageParams: [0],
+    },
     queryFn: async ({ pageParam }) => {
       const params = new URLSearchParams(queryUrl);
       params.set("cursor", String(pageParam));
@@ -43,9 +47,10 @@ export default function ListingsGrid() {
       }
 
       return response.json();
-    },
+    },    
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
+
 
   useEffect(() => {
     const target = sentinelRef.current;
@@ -69,7 +74,7 @@ export default function ListingsGrid() {
   const vehicles = data?.pages.flatMap((page) => page.data) || [];
 
   if (isLoading) {
-    return <VehicleSkeletonCard />;
+    return <VehicleSkeletonGrid />;
   }
 
   if (isError) {

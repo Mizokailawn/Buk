@@ -59,8 +59,7 @@ export default function DeleteVehicleButton({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button
-          variant="destructive"
+        <Button          
           className="flex gap-2 items-center justify-center rounded-full"
         >
           <Trash />

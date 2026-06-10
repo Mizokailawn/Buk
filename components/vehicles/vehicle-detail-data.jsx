@@ -119,7 +119,7 @@ export default function VehicleDetailsSection({ vehicle }) {
 
           <DetailRow label="Registration" value={vehicle?.registration} />
 
-          <DetailRow label="Wheels" value={vehicle?.wheels} />
+          <DetailRow label="Category" value={vehicle?.category} />
 
           <DetailRow label="Seller" value={vehicle?.seller} />
         </div>

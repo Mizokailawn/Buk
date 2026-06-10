@@ -70,8 +70,7 @@ export default function VehicleStatusToggle({
         <Switch
           checked={isActive}
           disabled={isPending}
-          onCheckedChange={handleToggle}
-          className="data-[state=checked]:bg-purple-500"
+          onCheckedChange={handleToggle}          
         />
       </div>
 

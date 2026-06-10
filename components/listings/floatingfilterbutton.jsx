@@ -14,15 +14,15 @@ export default function FloatingFilterButton({ filterOptions }) {
         onClick={() => setOpen(true)}
         className="
           fixed
-          bottom-16
+          h-10 w-10
+          bottom-14
           right-4
           z-40
           rounded-full
           shadow-lg
         "
       >
-        <SlidersHorizontal size={18} />
-        Filters
+        <SlidersHorizontal size={18} />        
       </Button>
 
       <FilterSheet
