@@ -9,7 +9,7 @@ import VehicleSkeletonGrid from "../skeletons/vehicle-skeleton-grid";
 
 const PAGE_SIZE = 12;
 
-export default function ListingsGrid({initialData}) {
+export default function ListingsGrid( {initialData} ) {
   const searchParams = useSearchParams();
   const sentinelRef = useRef(null);
   const filterKey = searchParams.toString();

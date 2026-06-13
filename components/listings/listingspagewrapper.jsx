@@ -1,5 +1,3 @@
-import ListingsGrid from "./listingsgrid";
-import CategoryChips from "./CategoryChips";
 import { Suspense } from "react";
 import FloatingFilterButton from "./floatingfilterbutton";
 import ActiveFilterChips from "./activefilterchips";
@@ -8,32 +6,32 @@ import SearchOverlay from "./search-overlay";
 import VehicleSkeletonGrid from "../skeletons/vehicle-skeleton-grid";
 import { parseFilters } from "@/lib/filter/parse-filter";
 import { GetFilteredVehiclePage } from "@/lib/queries/vehicles/get-vehicle";
-import FloatingShareButton from "../shared/share-button";
+import FloatingShareButton from "../shared/floating-share-button";
+import ListingsGridWrapper from "./listingsgirdwrapper";
 
 export default async function ListingsWrapper({ filterOptions, searchParams }) {
-
   const filters = parseFilters(await searchParams);
   const initialData = await GetFilteredVehiclePage(filters);
 
   return (
     <ListingsQueryProvider>
-      <Suspense>
+      {/* <Suspense>
         <SearchOverlay />
-      </Suspense>
+      </Suspense> */}
       <div className="space-y-3">
         {/* <Suspense>
           <CategoryChips />
         </Suspense> */}
-        <Suspense>
+        {/* <Suspense>
           <ActiveFilterChips />
-        </Suspense>
+        </Suspense> */}
         <Suspense fallback={<VehicleSkeletonGrid />}>
-          <ListingsGrid initialData={initialData} />
+          <ListingsGridWrapper initialData={initialData} />
         </Suspense>
-        <Suspense>
+        {/* <Suspense>
           <FloatingFilterButton filterOptions={filterOptions} />
         </Suspense>
-        <FloatingShareButton />
+        <FloatingShareButton /> */}
       </div>
     </ListingsQueryProvider>
   );

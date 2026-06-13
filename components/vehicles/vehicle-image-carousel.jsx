@@ -14,7 +14,7 @@ export default function VehicleImageCarousel({ vehicle }) {
   
   if (!images || images.length === 0) {
     return (
-      <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
+      <div className="w-full h-64 bg-background flex items-center justify-center">
         <span className="text-gray-500">No images available</span>
       </div>
     );
@@ -46,6 +46,7 @@ export default function VehicleImageCarousel({ vehicle }) {
 
               {/* bottom gradient */}
               <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-20 bg-linear-to-t from-black/20 to-transparent" />
+              
             </button>
           </SwiperSlide>
         ))}

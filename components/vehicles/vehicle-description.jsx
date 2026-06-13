@@ -10,7 +10,7 @@ export default function VehicleDescription({ description }) {
   const descriptionTooLong = description?.length > 180;
 
   return (
-    <div className="rounded-xl max-w-xs border bg-card p-3 shadow-sm">
+    <div className="rounded-xl min-w-xs w-full border bg-card p-3 shadow-sm">
       <h3 className="text-lg font-semibold">Description</h3>
 
       <div

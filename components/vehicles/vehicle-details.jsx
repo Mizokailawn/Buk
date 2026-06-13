@@ -1,3 +1,4 @@
+import FloatingShareButton from "../shared/floating-share-button";
 import VehicleDetailData from "./vehicle-detail-data";
 import VehicleImageCarousel from "./vehicle-image-carousel";
 
@@ -15,6 +16,7 @@ export default function VehicleDetails({ vehicle }) {
       <div>
         <VehicleImageCarousel vehicle={vehicle} />
       </div>
+      <FloatingShareButton />
       <div>
         <VehicleDetailData vehicle={vehicle} />
       </div>
