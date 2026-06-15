@@ -11,7 +11,9 @@ import ListingsGridWrapper from "./listingsgirdwrapper";
 
 export default async function ListingsWrapper({ filterOptions, searchParams }) {
   const filters = parseFilters(await searchParams);
+  console.log("Server Filters: ", filters)
   const initialData = await GetFilteredVehiclePage(filters);
+  console.log("SERVER DATA COUNT: ", initialData.data.length)
 
   return (
     <ListingsQueryProvider>
