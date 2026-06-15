@@ -1,3 +1,7 @@
+import { MessageCircle } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
+import { Info } from "lucide-react";
+import { UserCircle } from "lucide-react";
 import { 
     Shield, HelpCircle, FileText, Home, 
     Smartphone, Compass, Search, PlusCircle
@@ -12,7 +16,14 @@ export const NAV_ITEMS = [
 
 export const MORE_ITEMS = [
   { label: "FAQs", href: "/faq", icon: HelpCircle },
-  { label: "Terms", href: "/terms", icon: FileText },
-  { label: "Privacy", href: "/privacy", icon: Shield },
-  { label: "Contact Us", href: "/contact", icon: Smartphone }
+  { label: "Terms and Conditions", href: "/legal/terms-and-conditions", icon: FileText },
+  { label: "Privacy policy", href: "/legal/privacy-policy", icon: Shield },
+  
 ];
+
+export const BOTTOM_SHEET_ITEMS = [
+  {label: "Profile", href: "/profile", icon: UserCircle},
+  {label: "Contact Us", href: "/contact-us", icon: MessageCircle},
+  {label: "About Us", href: "/legal/about-us", icon: Info},
+  {label: "Disclaimer", href: "/legal/disclaimer", icon: AlertTriangle}
+]

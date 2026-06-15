@@ -11,6 +11,7 @@ import { toast } from "sonner";
     const handleLogout = async () => {
         const supabase = createClient();
         await supabase.auth.signOut();
+        onLogout?.()
         toast.success("Logged out successfully!");
         router.refresh();
         router.push("/");

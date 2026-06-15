@@ -1,96 +1,84 @@
-import React, { Suspense } from "react";
+"use client";
+
+import React, { Suspense, useEffect, useState } from "react";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetFooter,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { AuthButton } from "@/components/auth/auth-button";
 import { ModeToggle } from "@/components/shared/theme-toggle";
-import { UserCircle } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { Timer } from "lucide-react";
-import { Star } from "lucide-react";
+import { BOTTOM_SHEET_ITEMS } from "../nav.config";
+import { AuthButton } from "@/components/auth/auth-button";
+import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { UserCircle } from "lucide-react";
 
 export default function BotNavMenu() {
+  const pathname= usePathname()
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
   return (
     <div className="nav-item flex-1">
-      <Sheet>
-        <SheetTrigger>
-          <Avatar size="sm">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetTrigger asChild>
+          <Button variant="ghost" className="text-muted-foreground">
+            <UserCircle size={30}/>
+          </Button>
         </SheetTrigger>
-        <SheetContent side="right" showCloseButton={false} className="px-3">
-          <SheetTitle></SheetTitle>
-          {/* Drag handle */}
+
+        <SheetContent side="right" showCloseButton={false} className="px-5">
+          <SheetTitle />
+
           <div className="w-12 h-1 bg-muted mx-auto mb-4 rounded-full" />
 
-          {/* Account */}
           <div className="flex flex-col gap-4 justify-center">
-            <p className="text-md font-medium text-muted-foreground items-center justify-center">
-              Account
-            </p>
+            <p className="text-lg font-medium text-foreground">BUK</p>
             <Separator />
-            <div className="flex gap-2">
-              <SheetClose asChild>
-                <Link href="/profile" className="flex items-center gap-3">
-                  <UserCircle size={20} />
-                  <span>My Profile</span>
-                </Link>
-              </SheetClose>
-            </div>
-            <div className="flex gap-2">
-              <SheetClose asChild>
-                <Link href="/recent" className="flex items-center gap-3">
-                  <Timer size={20} />
-                  <span>Recently Viewed</span>
-                </Link>
-              </SheetClose>
-            </div>
-            <div className="flex gap-2">
-              <SheetClose>
-                <Link href="/favourites" className="flex items-center gap-3">
-                  <Star size={20} />
-                  <span>Favourites</span>
-                </Link>
-              </SheetClose>
-            </div>
           </div>
 
-          {/* Activity */}
-          <div className="mt-6 space-y-4">
-            <p className="text-sm font-medium text-muted-foreground">
-              Activity
-            </p>
-            <div className="space-y-2">
-              <p>Recently Viewed</p>
-            </div>
+          <div className="flex flex-col text-md justify-center">
+            {BOTTOM_SHEET_ITEMS.map((item, index) => {
+              const Icon = item.icon;
+
+              return (
+                <div key={item.label}>
+                  <div className="flex flex-col w-full items-center py-3">
+                    <Link
+                      href={item.href}                      
+                      className="flex gap-4 items-center w-full py-2"
+                    >
+                      <Icon size={20} />
+                      {item.label}
+                    </Link>
+                  </div>
+
+                  {index < BOTTOM_SHEET_ITEMS.length - 1 && (
+                    <Separator className="my-1 bg-muted-foreground/20" />
+                  )}
+                </div>
+              );
+            })}
           </div>
 
-          {/* Settings */}
-          <div className="mt-6 space-y-4">
-            <p className="text-sm font-medium text-muted-foreground">
-              Settings
-            </p>
-            <div className="space-y-2">
-              <p>Help</p>
-            </div>
-          </div>
           <SheetFooter>
-            <SheetClose asChild>
-              <div className="flex gap-4 items-center justify-start">
-                <ModeToggle />
-                <Suspense>
-                  <AuthButton />
-                </Suspense>
-              </div>
-            </SheetClose>
+            <div className="flex gap-4 items-center justify-evenly pr-10">
+              <ModeToggle />
+
+              <Suspense>
+                <AuthButton
+                  onNavigate={() => setOpen(false)}
+                />
+              </Suspense>
+            </div>
           </SheetFooter>
         </SheetContent>
       </Sheet>

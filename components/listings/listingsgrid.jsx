@@ -13,6 +13,7 @@ export default function ListingsGrid( {initialData} ) {
   const searchParams = useSearchParams();
   const sentinelRef = useRef(null);
   const filterKey = searchParams.toString();
+  console.log("FILTER KEY:", filterKey);
 
   const queryUrl = useMemo(() => {
     const params = new URLSearchParams(searchParams);
@@ -20,6 +21,11 @@ export default function ListingsGrid( {initialData} ) {
 
     return params;
   }, [searchParams]);
+
+  console.log(
+  "INITIAL DATA RECEIVED:",
+  initialData
+);
 
   const {
     data,
@@ -35,8 +41,14 @@ export default function ListingsGrid( {initialData} ) {
     initialData: {
       pages: [initialData],
       pageParams: [0],
-    },
+    },    
     queryFn: async ({ pageParam }) => {
+      console.log(
+    "QUERY FETCH:",
+    filterKey,
+    "cursor:",
+    pageParam
+  );
       const params = new URLSearchParams(queryUrl);
       params.set("cursor", String(pageParam));
 
@@ -50,6 +62,8 @@ export default function ListingsGrid( {initialData} ) {
     },    
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
+
+  console.log(" query data: ", data)
 
 
   useEffect(() => {

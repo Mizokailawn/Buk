@@ -1,3 +1,4 @@
+import Footer from "@/components/footer/footer";
 import HeroSection from "@/components/homepage/herosection";
 import Rides from "@/components/homepage/rides";
 import { ToggleDemo } from "@/components/toggletest";
@@ -12,7 +13,7 @@ export default function Home() {
         <Rides />
       </div>
       <footer>
-        {/* <ToggleDemo /> */}
+        <Footer />       
       </footer>
     </div>
   );
