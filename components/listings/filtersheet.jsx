@@ -25,6 +25,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
+import { useListingsLoading } from "./listings-loading-context";
 
 const arrayFromParams = (params, key) =>
   params.get(key)?.split(",").filter(Boolean) || [];
@@ -97,6 +98,7 @@ function FilterSheetForm({ currentFilters, filterOptions, params, setOpen }) {
 
   const router = useRouter();
   const [draft, setDraft] = useState(currentFilters);
+  const { setIsFilterChanging } = useListingsLoading();
 
   const toggleArrayValue = (key, value) => {
     setDraft((previous) => {
@@ -145,6 +147,7 @@ function FilterSheetForm({ currentFilters, filterOptions, params, setOpen }) {
     }
 
     const query = next.toString();
+    setIsFilterChanging(true);
     router.replace(query ? `/listings?${query}` : "/listings");
     setOpen(false);
   };
@@ -163,6 +166,7 @@ function FilterSheetForm({ currentFilters, filterOptions, params, setOpen }) {
     ].forEach((key) => next.delete(key));
 
     const query = next.toString();
+    setIsFilterChanging(true);
     router.replace(query ? `/listings?${query}` : "/listings");
     setOpen(false);
   };

@@ -9,12 +9,14 @@ import { Button } from "../ui/button";
 import { SearchIcon } from "lucide-react";
 import { ChevronLeft } from "lucide-react";
 import { XIcon } from "lucide-react";
+import { useListingsLoading } from "./listings-loading-context";
 
 export default function SearchOverlay({open}) {
   const [query, setQuery] = useState("");
   const searchparams = useSearchParams();
   const router = useRouter();
   const inputRef = useRef(null);
+  const { setIsFilterChanging } = useListingsLoading();
 
   const isOpen = searchparams.get("search") === "1" || open;
 
@@ -31,6 +33,7 @@ export default function SearchOverlay({open}) {
     params.delete("search");
     params.set("q", query );
 
+    setIsFilterChanging(true);
     router.replace(`/listings?${params.toString()}`, { scroll: false });
   };
 

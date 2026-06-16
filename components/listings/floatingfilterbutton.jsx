@@ -1,9 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
-import FilterSheet from "./filtersheet";
 import { Button } from "../ui/button";
+
+const FilterSheet = dynamic(() => import("./filtersheet"), {
+  ssr: false,
+  loading: () => null,
+});
 
 export default function FloatingFilterButton({ filterOptions }) {
   const [open, setOpen] = useState(false);
@@ -25,11 +30,13 @@ export default function FloatingFilterButton({ filterOptions }) {
         <SlidersHorizontal size={18} />        
       </Button>
 
-      <FilterSheet
-        open={open}
-        setOpen={setOpen}
-        filterOptions={filterOptions}
-      />
+      {open && (
+        <FilterSheet
+          open={open}
+          setOpen={setOpen}
+          filterOptions={filterOptions}
+        />
+      )}
     </>
   );
 }
