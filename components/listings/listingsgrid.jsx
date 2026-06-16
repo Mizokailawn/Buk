@@ -6,32 +6,29 @@ import { useEffect, useMemo, useRef } from "react";
 import VehicleCard from "../vehicles/car-card";
 import { Spinner } from "../ui/spinner";
 import VehicleSkeletonGrid from "../skeletons/vehicle-skeleton-grid";
+import { useListingsLoading } from "./listings-loading-context";
 
 const PAGE_SIZE = 12;
 
 export default function ListingsGrid( {initialData} ) {
   const searchParams = useSearchParams();
   const sentinelRef = useRef(null);
+  const { isFilterChanging, setIsFilterChanging } = useListingsLoading();
   const filterKey = searchParams.toString();
-  console.log("FILTER KEY:", filterKey);
 
   const queryUrl = useMemo(() => {
     const params = new URLSearchParams(searchParams);
     params.set("limit", String(PAGE_SIZE));
 
     return params;
-  }, [searchParams]);
-
-  console.log(
-  "INITIAL DATA RECEIVED:",
-  initialData
-);
+  }, [searchParams]);  
 
   const {
     data,
     error,
     fetchNextPage,
     hasNextPage,
+    isFetching,
     isFetchingNextPage,
     isLoading,
     isError,
@@ -42,13 +39,7 @@ export default function ListingsGrid( {initialData} ) {
       pages: [initialData],
       pageParams: [0],
     },    
-    queryFn: async ({ pageParam }) => {
-      console.log(
-    "QUERY FETCH:",
-    filterKey,
-    "cursor:",
-    pageParam
-  );
+    queryFn: async ({ pageParam }) => {      
       const params = new URLSearchParams(queryUrl);
       params.set("cursor", String(pageParam));
 
@@ -62,9 +53,6 @@ export default function ListingsGrid( {initialData} ) {
     },    
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
-
-  console.log(" query data: ", data)
-
 
   useEffect(() => {
     const target = sentinelRef.current;
@@ -86,8 +74,16 @@ export default function ListingsGrid( {initialData} ) {
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   const vehicles = data?.pages.flatMap((page) => page.data) || [];
+  const showSkeleton =
+    isFilterChanging || isLoading || (isFetching && !isFetchingNextPage);
 
-  if (isLoading) {
+  useEffect(() => {
+    if (!isFetching) {
+      setIsFilterChanging(false);
+    }
+  }, [filterKey, isFetching, setIsFilterChanging]);
+
+  if (showSkeleton) {
     return <VehicleSkeletonGrid />;
   }
 

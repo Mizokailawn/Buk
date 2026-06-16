@@ -3,6 +3,7 @@
 import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "../ui/button";
+import { useListingsLoading } from "./listings-loading-context";
 
 const FILTER_LABELS = {
   brand: "Brand",
@@ -22,6 +23,7 @@ const singleKeys = ["minPrice", "maxPrice", "sort"];
 export default function ActiveFilterChips() {
   const params = useSearchParams();
   const router = useRouter();
+  const { setIsFilterChanging } = useListingsLoading();
 
   const chips = [
     ...listKeys.flatMap((key) =>
@@ -66,6 +68,7 @@ export default function ActiveFilterChips() {
     }
 
     const query = next.toString();
+    setIsFilterChanging(true);
     router.replace(query ? `/listings?${query}` : "/listings");
   }
 
@@ -75,6 +78,7 @@ export default function ActiveFilterChips() {
     [...listKeys, ...singleKeys].forEach((key) => next.delete(key));
 
     const query = next.toString();
+    setIsFilterChanging(true);
     router.replace(query ? `/listings?${query}` : "/listings");
   }
 

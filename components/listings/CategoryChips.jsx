@@ -8,10 +8,12 @@ import {
   useState,
   useTransition,
 } from "react";
+import { useListingsLoading } from "./listings-loading-context";
 
 export default function CategoryChips() {
   const router = useRouter();
   const params = useSearchParams();
+  const { setIsFilterChanging } = useListingsLoading();
 
   const [isPending, startTransition] =
     useTransition();
@@ -41,6 +43,7 @@ export default function CategoryChips() {
     setOptimisticCategory(
       newCategory
     );
+    setIsFilterChanging(true);
 
     if (!newCategory) {
       next.delete("category");
