@@ -104,7 +104,7 @@ export async function UpdateVehicleStatus(vehicleId, status) {
 // DELETE VEHICLE
 // ======================================================
 export async function deleteVehicle(vehicleId) {
-  const supabase = await createClient();
+  const supabase = await createClient();  
 
   try {
     // auth
@@ -127,7 +127,7 @@ export async function deleteVehicle(vehicleId) {
       .eq("id", vehicleId)
       .single();
 
-    if (vehicleError || !vehicle) {
+          if (vehicleError || !vehicle) {
       return {
         success: false,
         error: "Vehicle not found",
@@ -142,12 +142,13 @@ export async function deleteVehicle(vehicleId) {
       };
     }
 
-    // storage cleanup    
-    const folderPath = `${vehicle.user_id}/${vehicleId}`;    
+    // storage cleanup      
+    const folderPath = `${vehicle.user_id}/${vehicleId}`; 
 
     const { data: files, error: listError } = await supabase.storage
       .from("vehicle-images")
       .list(folderPath);
+
 
     if (listError) {
       console.error(listError)

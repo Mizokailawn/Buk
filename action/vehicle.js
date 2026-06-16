@@ -45,8 +45,6 @@ async function moveImagesToVehicleFolder(supabase, images, userId, vehicleId) {
       const fileName = img.path.split("/").pop();
       const finalPath = `${userId}/${vehicleId}/${fileName}`;
 
-      console.log("moving: ", img.path, " to ", finalPath)
-
       const { error } = await supabase.storage
         .from(VEHICLE_IMAGE_BUCKET)
         .move(img.path, finalPath);
@@ -72,9 +70,7 @@ async function moveImagesToVehicleFolder(supabase, images, userId, vehicleId) {
 }
 
 export async function publishVehicleListing(input) {
-  console.log("STARTING...")
   const parsed = publishVehicleSchema.safeParse(input);
-  console.log(parsed)
 
   if (!parsed.success) {
     return {
@@ -84,15 +80,12 @@ export async function publishVehicleListing(input) {
   }
 
   const supabase = await createClient();
-  console.log("Parsed Data: ", parsed.data);
   const { vehicle, images } = parsed.data;
 
   const {
     data: { user },
     error: authError,
   } = await supabase.auth.getUser();
-
-  console.log("Current User: ", user)
 
   if (authError || !user) {
     await removeUploadedImages(supabase, images);
@@ -120,12 +113,10 @@ export async function publishVehicleListing(input) {
       ])
       .select("id")
       .single();
-      console.log("Created Vehicle: ", createdVehicle);
 
     if (vehicleError) throw vehicleError;
 
     vehicleId = createdVehicle.id;
-    console.log("Vehicle ID: ", vehicleId);
 
     finalizedImages = await moveImagesToVehicleFolder(
       supabase,
@@ -133,14 +124,12 @@ export async function publishVehicleListing(input) {
       user.id,
       vehicleId,
     );
-    console.log("Finalized Images: ", finalizedImages);
 
     const imageRows = finalizedImages.map((img, index) => ({
       vehicle_id: vehicleId,
       url: img.url,
       order_index: index,
     }));
-    console.log("Image Rows for DB: ", imageRows);
 
     const { error: imageError } = await supabase
       .from("vehicle_images")

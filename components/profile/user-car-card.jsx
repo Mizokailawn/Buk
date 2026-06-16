@@ -52,7 +52,7 @@ function UserVehicleCard({ vehicle }) {
       </Link>
       <div className="grid grid-cols-3 gap-2 p-2">
         <EditButton vehicleId={vehicle?.id} className="col-span-2"/>
-        <DeleteVehicleButton veicleId={vehicle?.id}/>
+        <DeleteVehicleButton vehicleId={vehicle?.id}/>
         <VehicleStatusToggle
           vehicleId={vehicle?.id}
           initialStatus={vehicle?.status}
