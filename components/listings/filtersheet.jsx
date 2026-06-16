@@ -245,35 +245,7 @@ function FilterSheetForm({ currentFilters, filterOptions, params, setOpen }) {
               </AccordionContent>
             </AccordionItem>
           ))}
-        </Accordion>
-
-        {/* <FilterGroup
-          title="Brand"
-          values={filterOptions.brands}
-          selected={draft.brand}
-          onToggle={(value) => toggleArrayValue("brand", value)}
-        /> */}
-
-        {/* <FilterGroup
-          title="District"
-          values={filterOptions.cities}
-          selected={draft.city}
-          onToggle={(value) => toggleArrayValue("city", value)}
-        />
-
-        <FilterGroup
-          title="Fuel"
-          values={filterOptions.fuel}
-          selected={draft.fuel}
-          onToggle={(value) => toggleArrayValue("fuel", value)}
-        />
-
-        <FilterGroup
-          title="Transmission"
-          values={filterOptions.transmission}
-          selected={draft.transmission}
-          onToggle={(value) => toggleArrayValue("transmission", value)}
-        /> */}
+        </Accordion>        
       </div>
 
       <SheetFooter className="grid grid-cols-2 gap-2 border-t p-4">
