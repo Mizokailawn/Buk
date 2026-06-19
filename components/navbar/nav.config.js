@@ -4,14 +4,13 @@ import { Info } from "lucide-react";
 import { UserCircle } from "lucide-react";
 import { 
     Shield, HelpCircle, FileText, Home, 
-    Compass, Search, PlusCircle
+    Compass, PlusCircle
  } from "lucide-react";
 
 export const NAV_ITEMS = [
   { label: "Home", href: "/", icon: Home },
   { label: "Explore", href: "/listings", icon: Compass },
   { label: "Sell", href: "/sell", icon: PlusCircle },
-  { label: "Search", href: "/listings?search=1", icon: Search }
 ];
 
 export const MORE_ITEMS = [

@@ -4,8 +4,17 @@ export default function manifest() {
     name: "BUK",
     short_name: "BUK",
     description: "Buy and sell used vehicles",
+
     start_url: "/",
+    scope: "/",
+
     display: "standalone",
+    orientation: "portrait",
+
+    categories: ["marketplace", "automotive"],
+
+    lang: "en",
+
     background_color: "#ffffff",
     theme_color: "#2563eb",
     icons: [

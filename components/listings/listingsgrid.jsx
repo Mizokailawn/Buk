@@ -90,7 +90,11 @@ export default function ListingsGrid({ initialData }) {
     (!hasPages && isFetching && !isFetchingNextPage);
 
   useEffect(() => {
-    if (!isFetching || pendingFilterKey === filterKey) {
+    if (pendingFilterKey && pendingFilterKey !== filterKey) {
+      return;
+    }
+
+    if (!isFetching) {
       setIsFilterChanging(false);
       setPendingFilterKey(null);
     }
