@@ -13,7 +13,7 @@ import { useListingsLoading } from "./listings-loading-context";
 export default function CategoryChips() {
   const router = useRouter();
   const params = useSearchParams();
-  const { setIsFilterChanging } = useListingsLoading();
+  const { startListingsChange } = useListingsLoading();
 
   const [isPending, startTransition] =
     useTransition();
@@ -43,7 +43,6 @@ export default function CategoryChips() {
     setOptimisticCategory(
       newCategory
     );
-    setIsFilterChanging(true);
 
     if (!newCategory) {
       next.delete("category");
@@ -53,6 +52,8 @@ export default function CategoryChips() {
         newCategory
       );
     }
+
+    startListingsChange(next);
 
     startTransition(() => {
       const query = next.toString();

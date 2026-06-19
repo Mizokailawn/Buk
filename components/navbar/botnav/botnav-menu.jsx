@@ -8,14 +8,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ModeToggle } from "@/components/shared/theme-toggle";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { BOTTOM_SHEET_ITEMS } from "../nav.config";
 import { AuthButton } from "@/components/auth/auth-button";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { UserCircle } from "lucide-react";
 
 export default function BotNavMenu() {
@@ -26,13 +24,10 @@ export default function BotNavMenu() {
     setOpen(false);
   }, [pathname]);
 
-  return (
-    <div className="nav-item flex-1">
+  return (    
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
-          <Button variant="ghost" className="text-muted-foreground">
-            <UserCircle size={30}/>
-          </Button>
+            <UserCircle className="h-5 w-5 text-muted-foreground" />
         </SheetTrigger>
 
         <SheetContent side="right" showCloseButton={false} className="px-5">
@@ -82,6 +77,6 @@ export default function BotNavMenu() {
           </SheetFooter>
         </SheetContent>
       </Sheet>
-    </div>
+    
   );
 }

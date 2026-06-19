@@ -10,7 +10,7 @@ export default function BottomNav() {
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t bg-background">
-      <div className="flex justify-around items-center h-14 py-2">
+      <div className="flex justify-around items-center h-14 pb-4 pt-2">
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
           const isActive =
@@ -43,7 +43,7 @@ export default function BottomNav() {
         
         <div className="flex flex-1 flex-col justify-center items-center">
           <BotNavMenu />
-          <span className="text-xs text-muted-foreground">
+          <span className="text-xs text-muted-foreground mt-1">
             You
           </span>
         </div>
