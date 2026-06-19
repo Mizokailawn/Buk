@@ -23,6 +23,6 @@ export const MORE_ITEMS = [
 export const BOTTOM_SHEET_ITEMS = [
   {label: "Profile", href: "/profile", icon: UserCircle},
   {label: "Contact Us", href: "/contact-us", icon: MessageCircle},
-  {label: "About Us", href: "/legal/about-us", icon: Info},
+  {label: "About Us", href: "/about-us", icon: Info},
   {label: "Disclaimer", href: "/legal/disclaimer", icon: AlertTriangle}
 ]

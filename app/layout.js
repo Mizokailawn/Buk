@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "@/components/navbar/navbar";
+import SWRegister from "./sw-register";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,6 +20,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.className}`} suppressHydrationWarning>
       <body className="min-h-full w-screen flex flex-col antialiased">
+        <SWRegister />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
