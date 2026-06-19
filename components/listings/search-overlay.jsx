@@ -2,63 +2,92 @@
 
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { SearchIcon } from "lucide-react";
-import { ChevronLeft } from "lucide-react";
-import { XIcon } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { SearchIcon, ChevronLeft, XIcon } from "lucide-react";
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useSearch } from "../search/search-provider";
 import { useListingsLoading } from "./listings-loading-context";
 
-export default function SearchOverlay({open}) {
-  const [query, setQuery] = useState("");
-  const searchparams = useSearchParams();
-  const router = useRouter();
-  const inputRef = useRef(null);
-  const { setIsFilterChanging } = useListingsLoading();
 
-  const isOpen = searchparams.get("search") === "1" || open;
-
-  useEffect(() => {
-    if (isOpen) {
-      inputRef.current?.focus();
-    }
-  }, [isOpen]);
-
-  const onSearch = () => {
-    if (!query.trim()) return;
-
-    const params = new URLSearchParams(searchparams);
-    params.delete("search");
-    params.set("q", query );
-
-    setIsFilterChanging(true);
-    router.replace(`/listings?${params.toString()}`, { scroll: false });
-  };
-
-  const reset = () => {
-    setQuery("");
-  }
-
-  const onClose = () => {
-    const params = new URLSearchParams(searchparams);
-    params.delete("search");
-    const queryString = params.toString();
-    router.replace(queryString ? `/listings?${queryString}` : "/listings", {
-      scroll: false,
-    });
-  };
+export default function SearchOverlay() {
+  const searchParams = useSearchParams();
+  const { open, setOpen } = useSearch();
+  const isOpen = open || searchParams.get("search") === "1";
 
   if (!isOpen) return null;
 
   return (
+    <SearchOverlayContent
+      currentQuery={searchParams.get("q") ?? ""}
+      searchParams={searchParams}
+      setOpen={setOpen}
+    />
+  );
+}
+
+function SearchOverlayContent({ currentQuery, searchParams, setOpen }) {
+  const [query, setQuery] = useState(currentQuery);
+  const router = useRouter();
+  const inputRef = useRef(null);
+  const { startListingsNavigation } = useListingsLoading();
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  const onSearch = () => {
+    const value = query.trim();
+
+    if (!value) return;
+
+    const params = new URLSearchParams(searchParams);
+
+    params.delete("search");
+    params.set("q", value);
+
+    setOpen(false);
+    startListingsNavigation(params);
+
+    router.push(`/listings?${params.toString()}`, {
+      scroll: false,
+    });
+  };
+
+  const onClose = () => {
+    const params = new URLSearchParams(searchParams);
+
+    params.delete("search");
+
+    const queryString = params.toString();
+
+    setQuery("");
+    setOpen(false);
+    router.replace(queryString ? `/listings?${params.toString()}` : "/listings", {
+      scroll: false,
+    });
+  };
+
+  const reset = () => {
+    setQuery("");
+    inputRef.current?.focus();
+  };
+
+  return (
     <div className="fixed inset-0 z-50 bg-background">
-      <div className="relative pt-6 pb-4 border-b px-3 flex gap-2">
-        <Button variant="outline" onClick={onClose} className="rounded-full">
+      <div className="relative pt-6 pb-4 border-b px-3 flex justify-center max-w-4xl mx-auto gap-2">
+        <Button
+          variant="outline"
+          onClick={onClose}
+          className="rounded-full"
+        >
           <ChevronLeft className="w-5 h-5" />
-          </Button>
-        <SearchIcon className="absolute left-18 top-10/18 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+        </Button>
+
+        <SearchIcon className="absolute left-18 top-10/18 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+
         <Input
           ref={inputRef}
           type="text"
@@ -70,14 +99,22 @@ export default function SearchOverlay({open}) {
             }
           }}
           placeholder="Search vehicles..."
-          className="flex-1 rounded-full pl-10 py-2 bg-background border-2"
-        ></Input>
+          className="flex-1 rounded-full pl-10 py-2 border-2"
+        />
+
         {query.length > 0 && (
-          <Button variant="ghost" onClick={reset} className="absolute right-3 top-10/18 transform -translate-y-1/2">
-            <XIcon size="sm" />
-            </Button>
+          <Button
+            variant="ghost"
+            onClick={reset}
+            className="absolute right-3 top-10/18 -translate-y-1/2"
+          >
+            <XIcon className="w-4 h-4" />
+          </Button>
         )}
-        
+      </div>
+
+      <div className="flex justify-center items-center h-100 italic text-muted-foreground text-sm max-w-4xl mx-auto">
+        <p>Search for Cars, Bikes, SUVs etc.</p>
       </div>
     </div>
   );

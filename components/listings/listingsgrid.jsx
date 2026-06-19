@@ -7,14 +7,23 @@ import VehicleCard from "../vehicles/car-card";
 import { Spinner } from "../ui/spinner";
 import VehicleSkeletonGrid from "../skeletons/vehicle-skeleton-grid";
 import { useListingsLoading } from "./listings-loading-context";
+import {
+  getVehicleListingsFilterKey,
+  getVehicleListingsQueryKey,
+} from "@/lib/filter/listings-query-key";
 
 const PAGE_SIZE = 12;
 
-export default function ListingsGrid( {initialData} ) {
+export default function ListingsGrid({ initialData }) {
   const searchParams = useSearchParams();
   const sentinelRef = useRef(null);
-  const { isFilterChanging, setIsFilterChanging } = useListingsLoading();
-  const filterKey = searchParams.toString();
+  const {
+    isFilterChanging,
+    pendingFilterKey,
+    setIsFilterChanging,
+    setPendingFilterKey,
+  } = useListingsLoading();
+  const filterKey = getVehicleListingsFilterKey(searchParams);
 
   const queryUrl = useMemo(() => {
     const params = new URLSearchParams(searchParams);
@@ -33,7 +42,7 @@ export default function ListingsGrid( {initialData} ) {
     isLoading,
     isError,
   } = useInfiniteQuery({
-    queryKey: ["vehicles", "infinite-list", filterKey],
+    queryKey: getVehicleListingsQueryKey(searchParams),
     initialPageParam: 0,
     initialData: {
       pages: [initialData],
@@ -73,15 +82,25 @@ export default function ListingsGrid( {initialData} ) {
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
+  const hasPages = Boolean(data?.pages?.length);
   const vehicles = data?.pages.flatMap((page) => page.data) || [];
   const showSkeleton =
-    isFilterChanging || isLoading || (isFetching && !isFetchingNextPage);
+    isFilterChanging ||
+    isLoading ||
+    (!hasPages && isFetching && !isFetchingNextPage);
 
   useEffect(() => {
-    if (!isFetching) {
+    if (!isFetching || pendingFilterKey === filterKey) {
       setIsFilterChanging(false);
+      setPendingFilterKey(null);
     }
-  }, [filterKey, isFetching, setIsFilterChanging]);
+  }, [
+    filterKey,
+    isFetching,
+    pendingFilterKey,
+    setIsFilterChanging,
+    setPendingFilterKey,
+  ]);
 
   if (showSkeleton) {
     return <VehicleSkeletonGrid />;

@@ -23,7 +23,7 @@ const singleKeys = ["minPrice", "maxPrice", "sort"];
 export default function ActiveFilterChips() {
   const params = useSearchParams();
   const router = useRouter();
-  const { setIsFilterChanging } = useListingsLoading();
+  const { startListingsChange } = useListingsLoading();
 
   const chips = [
     ...listKeys.flatMap((key) =>
@@ -68,7 +68,7 @@ export default function ActiveFilterChips() {
     }
 
     const query = next.toString();
-    setIsFilterChanging(true);
+    startListingsChange(next);
     router.replace(query ? `/listings?${query}` : "/listings");
   }
 
@@ -78,7 +78,7 @@ export default function ActiveFilterChips() {
     [...listKeys, ...singleKeys].forEach((key) => next.delete(key));
 
     const query = next.toString();
-    setIsFilterChanging(true);
+    startListingsChange(next);
     router.replace(query ? `/listings?${query}` : "/listings");
   }
 

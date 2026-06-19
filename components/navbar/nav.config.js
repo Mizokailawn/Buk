@@ -4,7 +4,7 @@ import { Info } from "lucide-react";
 import { UserCircle } from "lucide-react";
 import { 
     Shield, HelpCircle, FileText, Home, 
-    Smartphone, Compass, Search, PlusCircle
+    Compass, Search, PlusCircle
  } from "lucide-react";
 
 export const NAV_ITEMS = [
