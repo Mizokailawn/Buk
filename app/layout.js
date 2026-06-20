@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "@/components/navbar/navbar";
 import SWRegister from "./sw-register";
+import InstallPrompt from "@/components/pwa/install-prompt";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
             {children}
             <SpeedInsights />
           </main>
+          <InstallPrompt />
           <Toaster richColors position="top-center" />
         </ThemeProvider>
       </body>
