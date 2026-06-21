@@ -5,8 +5,8 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 
 export default function FloatingShareButton({
-  title = "BUK",
-  text = "",
+  title,
+  text,
   url,
 }) {
   const [copied, setCopied] = useState(false);
