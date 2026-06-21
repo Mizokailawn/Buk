@@ -31,8 +31,14 @@ export async function generateMetadata({ params }) {
 
     openGraph: {
       title: `${vehicle.brand} ${vehicle.model}`,
-      description: `₹${vehicle.price.toLocaleString()}`,
-      images: [vehicle.images?.[0]],
+      description: `₹${formatPrice(vehicle?.price)} • ${vehicle?.city}`,
+      images: [
+                {
+                  url: vehicle?.thumbnail_url,
+                  width: 1200,
+                  height: 630,
+                },
+              ],
       type: "website",
     },
 
