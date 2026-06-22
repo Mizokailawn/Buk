@@ -25,10 +25,10 @@ export async function generateMetadata({ searchParams }) {
     .split("")
     .map(
       (w) =>
-        w.charAt(0).toUppercase() +
-        w.slice(1).toLowercase()
+        w.charAt(0).toUpperCase() +
+        w.slice(1).toLowerCase()
     )
-    .join("")
+    .join(" ")
   }
   
   const brandName = capitalize(brand)
