@@ -10,6 +10,19 @@ export async function generateMetadata({ params }) {
   const { id } = await params;
 
   const vehicle = await GetPublicVehicleById(id);
+  
+  function capitalizeWords(str) {
+  if (!str) return "";
+
+  return str
+    .split(" ")
+    .map(
+      (word) =>
+        word.charAt(0).toUpperCase() +
+        word.slice(1).toLowerCase()
+    )
+    .join(" ");
+}
 
   const formatPrice = (price) => {
     if (!price) return "₹0";
@@ -19,18 +32,21 @@ export async function generateMetadata({ params }) {
     }).format(price);
   };
 
+  
   if (!vehicle) {
     return {
       title: "Vehicle Not Found | BUK",
     };
   }
+  const brand = capitalizeWords(vehicle?.brand)
+  const model = vehicle?.model
 
   return {
-    title: `${vehicle.brand} ${vehicle.model} | BUK`,
+    title: `${brand} ${model} for sale | BUK`,
     description: `₹${formatPrice(vehicle?.price)}`,
 
     openGraph: {
-      title: `${vehicle.brand} ${vehicle.model}`,
+      title: `${brand} ${model}for sale`,
       description: `₹${formatPrice(vehicle?.price)} • ${vehicle?.city}`,
       images: [
                 {
