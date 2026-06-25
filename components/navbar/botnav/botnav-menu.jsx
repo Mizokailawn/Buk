@@ -3,6 +3,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetFooter,
   SheetTitle,
@@ -17,66 +18,65 @@ import { usePathname } from "next/navigation";
 import { UserCircle } from "lucide-react";
 
 export default function BotNavMenu() {
-  const pathname= usePathname()
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  return (    
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetTrigger asChild>
-            <UserCircle className="h-5 w-5 text-muted-foreground" />
-        </SheetTrigger>
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
+        <UserCircle className="h-5 w-5 text-muted-foreground" />
+      </SheetTrigger>
 
-        <SheetContent side="right" showCloseButton={false} className="px-5">
-          <SheetTitle />
+      <SheetContent side="right" showCloseButton={false} className="px-5">
+        <SheetTitle />
 
-          <div className="w-12 h-1 bg-muted mx-auto mb-4 rounded-full" />
+        <div className="w-12 h-1 bg-muted mx-auto mb-4 rounded-full" />
 
-          <div className="flex flex-col gap-4 justify-center">
-            <p className="text-lg font-medium text-foreground">BUK</p>
-            <Separator />
-          </div>
+        <div className="flex flex-col gap-4 justify-center">
+          <p className="text-lg font-medium text-foreground">BUK</p>
+          <Separator />
+        </div>
 
-          <div className="flex flex-col text-md justify-center">
-            {BOTTOM_SHEET_ITEMS.map((item, index) => {
-              const Icon = item.icon;
+        <div className="flex flex-col text-md justify-center">
+          {BOTTOM_SHEET_ITEMS.map((item, index) => {
+            const Icon = item.icon;
 
-              return (
-                <div key={item.label}>
-                  <div className="flex flex-col w-full items-center py-3">
-                    <Link
-                      href={item.href}                      
-                      className="flex gap-4 items-center w-full py-2"
-                    >
-                      <Icon size={20} />
-                      {item.label}
-                    </Link>
-                  </div>
-
-                  {index < BOTTOM_SHEET_ITEMS.length - 1 && (
-                    <Separator className="my-1 bg-muted-foreground/20" />
-                  )}
+            return (
+              <div key={item.label}>
+                <div className="flex flex-col w-full items-center py-3">
+                  <Link
+                    href={item.href}
+                    className="flex gap-4 items-center w-full py-2"
+                  >
+                    <Icon size={20} />
+                    {item.label}
+                  </Link>
                 </div>
-              );
-            })}
+
+                {index < BOTTOM_SHEET_ITEMS.length - 1 && (
+                  <Separator className="my-1 bg-muted-foreground/20" />
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <SheetFooter>
+          <div className="flex gap-4 items-center justify-evenly pr-10">
+            <ModeToggle />
+
+            <Suspense>
+              <SheetClose asChild>
+                <AuthButton onNavigate={() => setOpen(false)} />
+              </SheetClose>
+            </Suspense>
           </div>
-
-          <SheetFooter>
-            <div className="flex gap-4 items-center justify-evenly pr-10">
-              <ModeToggle />
-
-              <Suspense>
-                <AuthButton
-                  onNavigate={() => setOpen(false)}
-                />
-              </Suspense>
-            </div>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
-    
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 }

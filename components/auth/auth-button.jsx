@@ -23,14 +23,15 @@ export function AuthButton({ initialUser, onNavigate }) {
   if (user) {
     return (
       <div className="flex gap-4 items-center">
-        <LogoutButton onClick={onNavigate}/>
+        {/* <LogOut onNavigate={onNavigate} /> */}
+        <LogoutButton onNavigate={onNavigate}/>
       </div>
     );
   }
 
   return (
         <Link href="/login"
-        onClick={onNavigate} 
+        // onClick={onNavigate} 
         className="border-2 rounded-md py-2 px-3">
           Login
         </Link>
