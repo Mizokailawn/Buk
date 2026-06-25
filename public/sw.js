@@ -1,141 +1,410 @@
-const CACHE_VERSION = "v1";
-const SHELL_CACHE = `buk-shell-${CACHE_VERSION}`;
-
-const STATIC_ASSETS = [
-  "/manifest.webmanifest",
-  "/icon-192.png",
-  "/icon-512.png",
-];
-
-self.addEventListener("install", (event) => {
-  self.skipWaiting();
-
-  event.waitUntil(
-    caches.open(SHELL_CACHE).then((cache) => {
-      return cache.addAll(STATIC_ASSETS);
-    })
+if (!self.define) {
+  let e,
+    s = {};
+  const c = (c, a) => (
+    (c = new URL(c + ".js", a).href),
+    s[c] ||
+      new Promise((s) => {
+        if ("document" in self) {
+          const e = document.createElement("script");
+          ((e.src = c), (e.onload = s), document.head.appendChild(e));
+        } else ((e = c), importScripts(c), s());
+      }).then(() => {
+        let e = s[c];
+        if (!e) throw new Error(`Module ${c} didn’t register its module`);
+        return e;
+      })
   );
-});
-
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    Promise.all([
-      self.clients.claim(),
-
-      caches.keys().then((cacheNames) =>
-        Promise.all(
-          cacheNames.map((cacheName) => {
-            if (cacheName !== SHELL_CACHE) {
-              return caches.delete(cacheName);
-            }
-          })
-        )
-      ),
-    ])
-  );
-});
-
-self.addEventListener("fetch", (event) => {
-  const request = event.request;
-
-  if (request.method !== "GET") {
-    return;
-  }
-
-  const url = new URL(request.url);
-
-  /**
-   * NEVER CACHE:
-   * API routes
-   */
-  if (url.pathname.startsWith("/api")) {
-    return;
-  }
-
-  /**
-   * NEVER CACHE:
-   * Supabase
-   */
-  if (url.hostname.includes("supabase.co")) {
-    return;
-  }
-
-  /**
-   * NEVER CACHE:
-   * Next image optimizer
-   */
-  if (url.pathname.startsWith("/_next/image")) {
-    return;
-  }
-
-  /**
-   * NEVER CACHE:
-   * Images
-   */
-  if (
-    request.destination === "image" ||
-    request.destination === "video"
-  ) {
-    return;
-  }
-
-  /**
-   * CACHE FIRST:
-   * Next.js static chunks
-   */
-  if (url.pathname.startsWith("/_next/static")) {
-    event.respondWith(cacheFirst(request));
-    return;
-  }
-
-  /**
-   * CACHE FIRST:
-   * JS / CSS / Fonts
-   */
-  if (
-    request.destination === "script" ||
-    request.destination === "style" ||
-    request.destination === "font"
-  ) {
-    event.respondWith(cacheFirst(request));
-    return;
-  }
-
-  /**
-   * CACHE FIRST:
-   * Manifest
-   */
-  if (
-    url.pathname === "/manifest.webmanifest" ||
-    url.pathname.endsWith(".webmanifest")
-  ) {
-    event.respondWith(cacheFirst(request));
-  }
-});
-
-async function cacheFirst(request) {
-  const cached = await caches.match(request);
-
-  if (cached) {
-    return cached;
-  }
-
-  try {
-    const response = await fetch(request);
-
-    if (!response || response.status !== 200) {
-      return response;
-    }
-
-    const cache = await caches.open(SHELL_CACHE);
-
-    cache.put(request, response.clone());
-
-    return response;
-  } catch {
-    return new Response("Offline", {
-      status: 503,
-      statusText: "Offline",
-    });
-  }
+  self.define = (a, t) => {
+    const i =
+      e ||
+      ("document" in self ? document.currentScript.src : "") ||
+      location.href;
+    if (s[i]) return;
+    let n = {};
+    const r = (e) => c(e, i),
+      b = { module: { uri: i }, exports: n, require: r };
+    s[i] = Promise.all(a.map((e) => b[e] || r(e))).then((e) => (t(...e), n));
+  };
 }
+define(["./workbox-de683dba"], function (e) {
+  "use strict";
+  (importScripts(),
+    self.skipWaiting(),
+    e.clientsClaim(),
+    e.precacheAndRoute(
+      [
+        {
+          url: "/_next/static/chunks/1004-4104a07601e702db.js",
+          revision: "4104a07601e702db",
+        },
+        {
+          url: "/_next/static/chunks/1105-dbb904de765bab66.js",
+          revision: "dbb904de765bab66",
+        },
+        {
+          url: "/_next/static/chunks/1326.349eab32f20ce5d0.js",
+          revision: "349eab32f20ce5d0",
+        },
+        {
+          url: "/_next/static/chunks/1472-05da6e3b291c041e.js",
+          revision: "05da6e3b291c041e",
+        },
+        {
+          url: "/_next/static/chunks/17db06c3-a43e04bbc3cd3fea.js",
+          revision: "a43e04bbc3cd3fea",
+        },
+        {
+          url: "/_next/static/chunks/1f0c32e3-2c06b8d3016fad98.js",
+          revision: "2c06b8d3016fad98",
+        },
+        {
+          url: "/_next/static/chunks/2143-5f2738c792ac2420.js",
+          revision: "5f2738c792ac2420",
+        },
+        {
+          url: "/_next/static/chunks/2363-540413c2f4e70c81.js",
+          revision: "540413c2f4e70c81",
+        },
+        {
+          url: "/_next/static/chunks/2477-a96c5a24b7073225.js",
+          revision: "a96c5a24b7073225",
+        },
+        {
+          url: "/_next/static/chunks/2496.65ef421c98d53abe.js",
+          revision: "65ef421c98d53abe",
+        },
+        {
+          url: "/_next/static/chunks/2983-adee7d16c8d23998.js",
+          revision: "adee7d16c8d23998",
+        },
+        {
+          url: "/_next/static/chunks/3145-16dd83baeb7b85db.js",
+          revision: "16dd83baeb7b85db",
+        },
+        {
+          url: "/_next/static/chunks/3824-c6542bb77dcdf782.js",
+          revision: "c6542bb77dcdf782",
+        },
+        {
+          url: "/_next/static/chunks/4191.81bf939b7b62e71a.js",
+          revision: "81bf939b7b62e71a",
+        },
+        {
+          url: "/_next/static/chunks/489-e4c6b46e209710d1.js",
+          revision: "e4c6b46e209710d1",
+        },
+        {
+          url: "/_next/static/chunks/4937-79b71f712149b82b.js",
+          revision: "79b71f712149b82b",
+        },
+        {
+          url: "/_next/static/chunks/4979-0623850881999942.js",
+          revision: "0623850881999942",
+        },
+        {
+          url: "/_next/static/chunks/535.7f77f37a6dc58c6e.js",
+          revision: "7f77f37a6dc58c6e",
+        },
+        {
+          url: "/_next/static/chunks/6067-10eedfafc64656bd.js",
+          revision: "10eedfafc64656bd",
+        },
+        {
+          url: "/_next/static/chunks/6205-ea14b3043b7aa5f6.js",
+          revision: "ea14b3043b7aa5f6",
+        },
+        {
+          url: "/_next/static/chunks/7090-193428cbe88fc84b.js",
+          revision: "193428cbe88fc84b",
+        },
+        {
+          url: "/_next/static/chunks/7877-836a02272386ad32.js",
+          revision: "836a02272386ad32",
+        },
+        {
+          url: "/_next/static/chunks/8455-b2efba131de3e9b1.js",
+          revision: "b2efba131de3e9b1",
+        },
+        {
+          url: "/_next/static/chunks/8526-2bcd6c964b6101c6.js",
+          revision: "2bcd6c964b6101c6",
+        },
+        {
+          url: "/_next/static/chunks/8904f46e-abb12fcf6715fb65.js",
+          revision: "abb12fcf6715fb65",
+        },
+        {
+          url: "/_next/static/chunks/8925-ecad290fb23a8cbf.js",
+          revision: "ecad290fb23a8cbf",
+        },
+        {
+          url: "/_next/static/chunks/9068-d5ad0ed3a34b15e3.js",
+          revision: "d5ad0ed3a34b15e3",
+        },
+        {
+          url: "/_next/static/chunks/9701.5bb19b9a89dd4458.js",
+          revision: "5bb19b9a89dd4458",
+        },
+        {
+          url: "/_next/static/chunks/9875.6a2a0aae4f963fd6.js",
+          revision: "6a2a0aae4f963fd6",
+        },
+        {
+          url: "/_next/static/chunks/app/(auth)/callback/route-480d7b8608c68250.js",
+          revision: "480d7b8608c68250",
+        },
+        {
+          url: "/_next/static/chunks/app/(auth)/forgot-password/page-5eba80aca33d287a.js",
+          revision: "5eba80aca33d287a",
+        },
+        {
+          url: "/_next/static/chunks/app/(auth)/login/page-41e1ba4ee3047b56.js",
+          revision: "41e1ba4ee3047b56",
+        },
+        {
+          url: "/_next/static/chunks/app/(auth)/phone/page-e13694e6f4cabf8a.js",
+          revision: "e13694e6f4cabf8a",
+        },
+        {
+          url: "/_next/static/chunks/app/(auth)/signup/page-c77c0196736655b9.js",
+          revision: "c77c0196736655b9",
+        },
+        {
+          url: "/_next/static/chunks/app/(auth)/update-password/page-55b4c0b4e5542f7e.js",
+          revision: "55b4c0b4e5542f7e",
+        },
+        {
+          url: "/_next/static/chunks/app/(protected)/profile/edit/%5Bid%5D/page-1cf996eec47075e1.js",
+          revision: "1cf996eec47075e1",
+        },
+        {
+          url: "/_next/static/chunks/app/(protected)/profile/page-291bc37e995c99e7.js",
+          revision: "291bc37e995c99e7",
+        },
+        {
+          url: "/_next/static/chunks/app/(protected)/sell/page-e390567d8f00f1fd.js",
+          revision: "e390567d8f00f1fd",
+        },
+        {
+          url: "/_next/static/chunks/app/(public)/about-us/page-6236616253a912cc.js",
+          revision: "6236616253a912cc",
+        },
+        {
+          url: "/_next/static/chunks/app/(public)/contact-us/page-6236616253a912cc.js",
+          revision: "6236616253a912cc",
+        },
+        {
+          url: "/_next/static/chunks/app/(public)/legal/disclaimer/page-6236616253a912cc.js",
+          revision: "6236616253a912cc",
+        },
+        {
+          url: "/_next/static/chunks/app/(public)/legal/privacy-policy/page-6236616253a912cc.js",
+          revision: "6236616253a912cc",
+        },
+        {
+          url: "/_next/static/chunks/app/(public)/legal/terms-and-conditions/page-6236616253a912cc.js",
+          revision: "6236616253a912cc",
+        },
+        {
+          url: "/_next/static/chunks/app/(public)/listings/page-2e0eb1dabeb89b8a.js",
+          revision: "2e0eb1dabeb89b8a",
+        },
+        {
+          url: "/_next/static/chunks/app/(public)/vehicle/%5Bid%5D/page-aa6297466fcea9d4.js",
+          revision: "aa6297466fcea9d4",
+        },
+        {
+          url: "/_next/static/chunks/app/_global-error/page-480d7b8608c68250.js",
+          revision: "480d7b8608c68250",
+        },
+        {
+          url: "/_next/static/chunks/app/_not-found/page-91a87b5bed896ec7.js",
+          revision: "91a87b5bed896ec7",
+        },
+        {
+          url: "/_next/static/chunks/app/api/vehicles/route-480d7b8608c68250.js",
+          revision: "480d7b8608c68250",
+        },
+        {
+          url: "/_next/static/chunks/app/layout-d8386746f82435ca.js",
+          revision: "d8386746f82435ca",
+        },
+        {
+          url: "/_next/static/chunks/app/manifest.webmanifest/route-480d7b8608c68250.js",
+          revision: "480d7b8608c68250",
+        },
+        {
+          url: "/_next/static/chunks/app/page-16e5d93eaaeb9e76.js",
+          revision: "16e5d93eaaeb9e76",
+        },
+        {
+          url: "/_next/static/chunks/app/unauthorised/page-480d7b8608c68250.js",
+          revision: "480d7b8608c68250",
+        },
+        {
+          url: "/_next/static/chunks/framework-06668af0e91b36dc.js",
+          revision: "06668af0e91b36dc",
+        },
+        {
+          url: "/_next/static/chunks/main-app-cea2bfaf6aacb944.js",
+          revision: "cea2bfaf6aacb944",
+        },
+        {
+          url: "/_next/static/chunks/main-ecf39a0f8d82cddf.js",
+          revision: "ecf39a0f8d82cddf",
+        },
+        {
+          url: "/_next/static/chunks/next/dist/client/components/builtin/app-error-480d7b8608c68250.js",
+          revision: "480d7b8608c68250",
+        },
+        {
+          url: "/_next/static/chunks/next/dist/client/components/builtin/forbidden-480d7b8608c68250.js",
+          revision: "480d7b8608c68250",
+        },
+        {
+          url: "/_next/static/chunks/next/dist/client/components/builtin/global-error-3b3fc5fd269c09e2.js",
+          revision: "3b3fc5fd269c09e2",
+        },
+        {
+          url: "/_next/static/chunks/next/dist/client/components/builtin/not-found-480d7b8608c68250.js",
+          revision: "480d7b8608c68250",
+        },
+        {
+          url: "/_next/static/chunks/next/dist/client/components/builtin/unauthorized-480d7b8608c68250.js",
+          revision: "480d7b8608c68250",
+        },
+        {
+          url: "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+          revision: "846118c33b2c0e922d7b3a7676f81f6f",
+        },
+        {
+          url: "/_next/static/chunks/webpack-551c5e4a60537f6a.js",
+          revision: "551c5e4a60537f6a",
+        },
+        {
+          url: "/_next/static/css/54ec6d1f3e8cd3b2.css",
+          revision: "54ec6d1f3e8cd3b2",
+        },
+        {
+          url: "/_next/static/css/635673569301566b.css",
+          revision: "635673569301566b",
+        },
+        {
+          url: "/_next/static/fnIepcVUqWS2dVYc2Jr_8/_buildManifest.js",
+          revision: "9d364d341303e4047292282bf7e08ede",
+        },
+        {
+          url: "/_next/static/fnIepcVUqWS2dVYc2Jr_8/_ssgManifest.js",
+          revision: "b6652df95db52feb4daf4eca35380933",
+        },
+        {
+          url: "/_next/static/media/19cfc7226ec3afaa-s.woff2",
+          revision: "9dda5cfc9a46f256d0e131bb535e46f8",
+        },
+        {
+          url: "/_next/static/media/21350d82a1f187e9-s.woff2",
+          revision: "4e2553027f1d60eff32898367dd4d541",
+        },
+        {
+          url: "/_next/static/media/8e9860b6e62d6359-s.woff2",
+          revision: "01ba6c2a184b8cba08b0d57167664d75",
+        },
+        {
+          url: "/_next/static/media/ba9851c3c22cd980-s.woff2",
+          revision: "9e494903d6b0ffec1a1e14d34427d44d",
+        },
+        {
+          url: "/_next/static/media/c5fe6dc8356a8c31-s.woff2",
+          revision: "027a89e9ab733a145db70f09b8a18b42",
+        },
+        {
+          url: "/_next/static/media/df0a9ae256c0569c-s.woff2",
+          revision: "d54db44de5ccb18886ece2fda72bdfe0",
+        },
+        {
+          url: "/_next/static/media/e4af272ccee01ff0-s.p.woff2",
+          revision: "65850a373e258f1c897a2b3d75eb74de",
+        },
+        { url: "/favicon.ico", revision: "984c0bead4b9024cdec387bea02e689a" },
+        { url: "/icon-192.png", revision: "5ba65ba4dc07e7c5f8c1b61f84f7da8d" },
+        { url: "/icon-512.png", revision: "c6344e75a709372b3a32a4f89c4a8d4d" },
+      ],
+      { ignoreURLParametersMatching: [/^utm_/, /^fbclid$/] },
+    ),
+    e.cleanupOutdatedCaches(),
+    e.registerRoute(
+      ({ url: e }) => e.pathname.startsWith("/_next/static/"),
+      new e.CacheFirst({
+        cacheName: "buk-next-static",
+        plugins: [
+          new e.ExpirationPlugin({ maxEntries: 120, maxAgeSeconds: 2592e3 }),
+          new e.CacheableResponsePlugin({ statuses: [200] }),
+        ],
+      }),
+      "GET",
+    ),
+    e.registerRoute(
+      ({ request: e }) => "script" === e.destination,
+      new e.CacheFirst({
+        cacheName: "buk-scripts",
+        plugins: [
+          new e.ExpirationPlugin({ maxEntries: 80, maxAgeSeconds: 2592e3 }),
+          new e.CacheableResponsePlugin({ statuses: [200] }),
+        ],
+      }),
+      "GET",
+    ),
+    e.registerRoute(
+      ({ request: e }) => "style" === e.destination,
+      new e.CacheFirst({
+        cacheName: "buk-styles",
+        plugins: [
+          new e.ExpirationPlugin({ maxEntries: 40, maxAgeSeconds: 2592e3 }),
+          new e.CacheableResponsePlugin({ statuses: [200] }),
+        ],
+      }),
+      "GET",
+    ),
+    e.registerRoute(
+      ({ request: e }) => "font" === e.destination,
+      new e.CacheFirst({
+        cacheName: "buk-fonts",
+        plugins: [
+          new e.ExpirationPlugin({ maxEntries: 30, maxAgeSeconds: 31536e3 }),
+          new e.CacheableResponsePlugin({ statuses: [0, 200] }),
+        ],
+      }),
+      "GET",
+    ),
+    e.registerRoute(
+      ({ url: e }) =>
+        "/manifest.webmanifest" === e.pathname ||
+        e.pathname.endsWith(".webmanifest") ||
+        "/favicon.ico" === e.pathname ||
+        e.pathname.startsWith("/icon-") ||
+        e.pathname.startsWith("/apple-icon"),
+      new e.CacheFirst({
+        cacheName: "buk-pwa-assets",
+        plugins: [
+          new e.ExpirationPlugin({ maxEntries: 20, maxAgeSeconds: 2592e3 }),
+          new e.CacheableResponsePlugin({ statuses: [200] }),
+        ],
+      }),
+      "GET",
+    ),
+    e.registerRoute(
+      ({ request: e, url: s }) =>
+        "image" === e.destination ||
+        (s.hostname.includes("supabase.co") &&
+          s.pathname.includes("/storage/v1/object/public/vehicle-images")),
+      new e.StaleWhileRevalidate({
+        cacheName: "buk-vehicle-images",
+        plugins: [
+          new e.ExpirationPlugin({ maxEntries: 120, maxAgeSeconds: 604800 }),
+          new e.CacheableResponsePlugin({ statuses: [0, 200] }),
+        ],
+      }),
+      "GET",
+    ));
+});

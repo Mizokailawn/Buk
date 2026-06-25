@@ -96,7 +96,7 @@ export default function ContactUs() {
               <span className="text-purple-400 font-semibold">Emergency Email Only</span>
             </div>
             <div className="flex items-start pt-1 text-muted-foreground">
-              <MapPin className="h-4 w-4 text-purple-500 mr-2 mt-0.5 flex-shrink-0" />
+              <MapPin className="h-4 w-4 text-purple-500 mr-2 mt-0.5 shrink-0" />
               <span>Registered Operations: New Delhi, India</span>
             </div>
           </div>
@@ -120,7 +120,7 @@ export default function ContactUs() {
             href="mailto:support@yourdomain.com"
             className="text-xs font-bold px-4 py-2.5 bg-card border border-muted-foreground hover:border-purple-500 rounded-xl transition duration-200 text-foreground"
           >
-            support@yourdomain.com
+            support@BUK.in
           </a>
         </div>
       </div>

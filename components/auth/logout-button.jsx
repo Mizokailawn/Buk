@@ -1,20 +1,24 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 
- export function LogoutButton() {
-    const router = useRouter();
+ export function LogoutButton({ onNavigate }) {    
     
     const handleLogout = async () => {
         const supabase = createClient();
-        await supabase.auth.signOut();
-        onLogout?.()
+        const { error } = await supabase.auth.signOut();
+
+        if (error) {
+            toast.error("Logout failed: ", error.message)
+            return
+        }
+
+        onNavigate?.()
         toast.success("Logged out successfully!");
-        router.refresh();
-        router.push("/");
+
+        window.location.href = "/"
     }
     return (
         <Button onClick={handleLogout}>

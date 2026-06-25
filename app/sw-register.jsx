@@ -5,30 +5,33 @@ import { useEffect } from "react";
 export default function SWRegister() {
   useEffect(() => {
     if (
+      process.env.NODE_ENV !== "development" ||
       typeof window === "undefined" ||
       !("serviceWorker" in navigator)
     ) {
       return;
     }
 
-    const register = async () => {
+    const cleanup = async () => {
       try {
-        const registration =
-          await navigator.serviceWorker.register("/sw.js");
+        const registrations =
+          await navigator.serviceWorker.getRegistrations();
 
-        console.log(
-          "[SW] registered:",
-          registration.scope
+        await Promise.all(
+          registrations.map((registration) => registration.unregister()),
         );
+
+        if ("caches" in window) {
+          const cacheNames = await caches.keys();
+
+          await Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName)));
+        }
       } catch (error) {
-        console.error(
-          "[SW] registration failed:",
-          error
-        );
+        console.warn("[SW] development cleanup failed:", error);
       }
     };
 
-    register();
+    cleanup();
   }, []);
 
   return null;
