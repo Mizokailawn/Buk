@@ -21,6 +21,8 @@ export const SELL_FORM_OPTIONS = {
     "MZ07",
     "MZ08",
     "MZ09",
+    "MZ10",
+    "MZ11",
     "Other",
   ],
 
@@ -48,6 +50,7 @@ export const DEFAULT_SELL_FORM_VALUES = {
   model: "",
   category: "",
   registration: "",
+  year: "",
   fuel: "",
   transmission: "",
   price: "",

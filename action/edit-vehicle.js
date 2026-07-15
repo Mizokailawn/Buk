@@ -24,6 +24,7 @@ export async function updateVehicleDetails({ vehicleId, vehicle }) {
     model: vehicle.model,
     brand: vehicle.brand,
     category: vehicle.category,
+    year: vehicle.year,
     price: vehicle.price,
     seller: vehicle.seller,
     description: vehicle.description,
@@ -51,6 +52,7 @@ export async function updateVehicleDetails({ vehicleId, vehicle }) {
   }
 
   revalidateTag("vehicle-details");
+  revalidateTag(`vehicle-details-${vehicleId}`);
 
   revalidateTag("user-vehicles");
 
@@ -94,6 +96,7 @@ export async function UpdateVehicleStatus(vehicleId, status) {
   revalidateTag("user-vehicles");
   revalidateTag("filtered-vehicle-page");
   revalidateTag("vehicle-details");
+  revalidateTag(`vehicle-details-${vehicleId}`);
 
   return {
     success: true,
@@ -181,6 +184,7 @@ export async function deleteVehicle(vehicleId) {
     revalidateTag("user-vehicles");
 
     revalidateTag("vehicle-details");
+    revalidateTag(`vehicle-details-${vehicleId}`);
 
     revalidateTag("filtered-vehicle-page");
 

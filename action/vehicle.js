@@ -6,12 +6,16 @@ import { revalidateTag } from "next/cache";
 
 const VEHICLE_IMAGE_BUCKET = "vehicle-images";
 
-function revalidateVehicleCaches() {
+function revalidateVehicleCaches(vehicleId) {
   revalidateTag("public-vehicles");
   revalidateTag("filtered-vehicle");
   revalidateTag("filtered-vehicle-page");
   revalidateTag("vehicle-filter-options");
   revalidateTag("vehicle-details");
+
+  if (vehicleId) {
+    revalidateTag(`vehicle-details-${vehicleId}`);
+  }
 }
 
 async function removeUploadedImages(supabase, uploads) {
@@ -144,7 +148,7 @@ export async function publishVehicleListing(input) {
 
     if (thumbnailError) throw thumbnailError;
 
-    revalidateVehicleCaches();
+    revalidateVehicleCaches(vehicleId);
 
     return {
       success: true,

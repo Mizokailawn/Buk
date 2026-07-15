@@ -28,12 +28,14 @@ export default function EditVehicleForm({ vehicle }) {
 
   const form = useForm({
     resolver: zodResolver(vehicleSchema),
-    mode: "onSubmit",
+    mode: "onChange",
+    reValidateMode: "onChange",
 
     defaultValues: {
       model: vehicle?.model ?? "",
       brand: vehicle?.brand ?? "",
       category: vehicle?.category ?? "",
+      year: vehicle?.year?.toString() ?? "",
       price: vehicle?.price?.toString() ?? "",
       seller: vehicle?.seller ?? "",
       description: vehicle?.description ?? "",
@@ -49,7 +51,9 @@ export default function EditVehicleForm({ vehicle }) {
   const phoneValue = useWatch({
     control: form.control,
     name: "phone",
-  });
+  }) || "";
+
+  const phoneLength = phoneValue.replace(/\D/g, "").length;
 
   useEffect(() => {
     if (!isWhatsappSame) return;
@@ -135,6 +139,7 @@ export default function EditVehicleForm({ vehicle }) {
           handlePriceChange={handlePriceChange}
           isWhatsappSame={isWhatsappSame}
           handleSameAsPhone={handleSameAsPhone}
+          phoneLength={phoneLength}
         />
 
         {/* ======================================================

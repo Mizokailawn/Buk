@@ -18,6 +18,12 @@ export const vehicleSchema = z.object({
 
   registration: z.string().trim().min(1, "Required"),
 
+  year: z.coerce
+    .number()
+    .int("Year must be a whole number")
+    .min(1900, "Enter a valid year")
+    .max(new Date().getFullYear() + 1, "Enter a valid year"),
+
   fuel: z.string().trim().min(1, "Required"),
 
   transmission: z.string().trim().min(1, "Required"),
