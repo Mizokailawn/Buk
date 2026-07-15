@@ -1,6 +1,12 @@
 import { Controller } from "react-hook-form";
 import { Input } from "../ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { Checkbox } from "../ui/checkbox";
 import { SELL_FORM_OPTIONS } from "./sell-form-options";
@@ -11,18 +17,20 @@ export default function VehicleFormFields({
   handlePriceChange,
   isWhatsappSame,
   handleSameAsPhone,
+  phoneLength,
 }) {
   const {
     register,
     control,
     formState: { errors },
   } = form;
+  const phoneDigits = Math.min(Number(phoneLength) || 0, 10);
 
   return (
     <>
       {/* ======================================================
                   MODEL
-            ====================================================== */}
+          ====================================================== */}
 
       <div className="space-y-2">
         <label className="text-sm font-medium">Model</label>
@@ -36,7 +44,7 @@ export default function VehicleFormFields({
 
       {/* ======================================================
                   BRAND
-              ====================================================== */}
+          ====================================================== */}
 
       <div className="space-y-2">
         <label className="text-sm font-medium">Brand</label>
@@ -49,8 +57,27 @@ export default function VehicleFormFields({
       </div>
 
       {/* ======================================================
+                  REGISTRATION YEAR
+          ====================================================== */}
+
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Registration Year</label>
+
+        <Input
+          type="text"
+          inputMode="numeric"
+          placeholder="Registration tih kum. Eg. 2015"
+          {...register("year")}
+        />
+
+        {errors.year && (
+          <p className="text-sm text-red-500">{errors.year.message}</p>
+        )}
+      </div>
+
+      {/* ======================================================
                   CATEGORY
-              ====================================================== */}
+          ====================================================== */}
 
       <div className="space-y-1 w-full">
         <label className="block text-sm font-medium">Category</label>
@@ -82,15 +109,15 @@ export default function VehicleFormFields({
 
       {/* ======================================================
                   PRICE
-              ====================================================== */}
+          ====================================================== */}
 
       <div className="space-y-2">
-        <label className="text-sm font-medium">Price (INR)</label>
+        <label className="text-sm font-medium">Price (₹)</label>
 
         <Input
           type="text"
           inputMode="numeric"
-          placeholder="12,20,000"
+          placeholder="Motor man zat Eg. 12,20,000"
           value={formattedPrice}
           onChange={handlePriceChange}
         />
@@ -102,7 +129,7 @@ export default function VehicleFormFields({
 
       {/* ======================================================
                   SELLER NAME
-              ====================================================== */}
+          ====================================================== */}
 
       <div className="space-y-2">
         <label className="text-sm font-medium">Seller Name</label>
@@ -121,13 +148,13 @@ export default function VehicleFormFields({
 
       {/* ======================================================
                   DESCRIPTION
-              ====================================================== */}
+          ====================================================== */}
 
       <div className="space-y-2">
         <label className="text-sm font-medium">Description</label>
 
         <Textarea
-          placeholder="Describe the vehicle..."
+          placeholder="Motor chungchang sawifiahna"
           {...register("description")}
           className="max-w-screen"
         />
@@ -139,14 +166,25 @@ export default function VehicleFormFields({
 
       {/* ======================================================
                   PHONE
-              ====================================================== */}
+          ====================================================== */}
 
       <div className="space-y-2">
-        <label className="text-sm font-medium">Phone</label>
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-medium">Phone</label>
+          <p
+            className={`text-sm ${
+              phoneDigits === 10 ? "text-green-600" : "text-muted-foreground"
+            }`}
+          >
+            {phoneDigits}/10
+          </p>
+        </div>
 
         <Input
           type="tel"
           inputMode="numeric"
+          maxLength={10}
+          pattern="[0-9]*"
           placeholder="9876543210"
           {...register("phone")}
         />
@@ -158,7 +196,7 @@ export default function VehicleFormFields({
 
       {/* ======================================================
                   WHATSAPP
-              ====================================================== */}
+          ====================================================== */}
 
       <div className="space-y-2">
         <div className="flex items-center justify-between">
@@ -183,6 +221,8 @@ export default function VehicleFormFields({
         <Input
           type="tel"
           inputMode="numeric"
+          maxLength={10}
+          pattern="[0-9]*"
           placeholder="9876543210"
           {...register("whatsapp")}
         />
@@ -194,7 +234,7 @@ export default function VehicleFormFields({
 
       {/* ======================================================
                   DISTRICT + REGISTRATION + FUELTYPE + TRANSMISSION
-              ====================================================== */}
+          ====================================================== */}
 
       <div className="grid grid-cols-2 gap-4 justify-center items-center">
         {/* DISTRICT */}
