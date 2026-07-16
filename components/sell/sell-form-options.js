@@ -50,6 +50,7 @@ export const DEFAULT_SELL_FORM_VALUES = {
   model: "",
   category: "",
   registration: "",
+  locality: "",
   year: "",
   fuel: "",
   transmission: "",

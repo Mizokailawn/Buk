@@ -18,6 +18,8 @@ export const vehicleSchema = z.object({
 
   registration: z.string().trim().min(1, "Required"),
 
+  locality: z.string().trim().min(3, "Locality must be at least 3 characters."),
+
   year: z.coerce
     .number()
     .int("Year must be a whole number")

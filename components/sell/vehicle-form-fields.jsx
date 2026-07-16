@@ -76,6 +76,25 @@ export default function VehicleFormFields({
       </div>
 
       {/* ======================================================
+                  LOCALITY
+          ====================================================== */}
+
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Locality</label>
+
+        <Input
+          type="text"
+          inputMode="numeric"
+          placeholder="Eg. Zotlang, Zarkawt, Bawngkawn etc..."
+          {...register("locality")}
+        />
+
+        {errors.locality && (
+          <p className="text-sm text-red-500">{errors.locality.message}</p>
+        )}
+      </div>
+
+      {/* ======================================================
                   CATEGORY
           ====================================================== */}
 
