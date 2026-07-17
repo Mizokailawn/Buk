@@ -12,7 +12,7 @@ export default function VehicleDetails({ vehicle }) {
   }
 
   return (
-    <div className="flex flex-col gap-2 h-full w-full justify-center items-center">
+    <div className="flex flex-col gap-2 h-full w-full">
       <div>
         <VehicleImageCarousel vehicle={vehicle} />
       </div>

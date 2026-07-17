@@ -222,7 +222,7 @@ function FilterSheetForm({ currentFilters, filterOptions, params, setOpen }) {
           </div>
         </section>
 
-        <Accordion type="multiple" className="w-full" defaultValue={["brand"]}>
+        <Accordion type="multiple" className="w-full">
           {filterSections.map((section) => (
             <AccordionItem
               key={section.key}

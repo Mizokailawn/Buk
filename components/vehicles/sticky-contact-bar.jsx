@@ -3,7 +3,7 @@
 import { Phone, MessageCircle } from "lucide-react";
 import Link from "next/link";
 
-const BOTTOM_NAV_HEIGHT = 50;
+const BOTTOM_NAV_HEIGHT = 60;
 
 export default function StickyContactBar({
   vehicle,
@@ -20,8 +20,9 @@ export default function StickyContactBar({
           {/* Model */}
           <div className="min-w-fit px-2">
             <p className="text-xs text-muted-foreground capitalize">
-              {vehicle?.model}
+              {vehicle?.brand}
             </p>
+            <span className="text-muted-foreground text-xs">{vehicle?.model}</span>
 
             <h3 className="text-sm font-bold tracking-tight">
               ₹
