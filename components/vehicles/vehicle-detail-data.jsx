@@ -7,6 +7,7 @@ import {
 import StickyContactBar from "./sticky-contact-bar";
 import VehicleDescription from "./vehicle-description";
 import { Badge } from "../ui/badge";
+import { Calendar } from "lucide-react";
 
 export default function VehicleDetailsSection({ vehicle }) {
   const formatPrice = (price) => {
@@ -47,7 +48,7 @@ export default function VehicleDetailsSection({ vehicle }) {
   };
 
   return (
-    <section className="flex flex-col px-2 pb-16 pt-3 space-y-6 w-screen">
+    <section className="flex flex-col w-full px-2 pb-16 pt-3 space-y-6">
       {/* HERO SECTION */}
       <div className="flex flex-col gap-2 rounded-xl border bg-gradient-to-b from-background to-muted/30 p-3 shadow-sm capitalize">
         {/* Flex layout with items-center ensures the Badge and Text align perfectly on their vertical middle */}
@@ -55,7 +56,10 @@ export default function VehicleDetailsSection({ vehicle }) {
           <h1 className="text-3xl font-bold tracking-tight text-purple-500">
             ₹{formatPrice(vehicle?.price)}
           </h1>
-          <Badge>{vehicle.seller}</Badge>
+          <div className="flex gap-2">
+            <p className="text-sm text-muted-foreground">Posted by:</p>
+            <Badge>{vehicle.seller}</Badge>
+          </div>
         </div>
         <div>
           <h2 className="text-xl font-semibold">
@@ -64,9 +68,9 @@ export default function VehicleDetailsSection({ vehicle }) {
         </div>
         <div className="flex justify-between text-xs">
           <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-            <span>{vehicle?.fuel}</span>
+            <span>{vehicle?.locality}</span>
             <span>•</span>
-            <span>{vehicle?.transmission}</span>
+            <span>{vehicle?.city}</span>
           </div>
           <div className="text-muted-foreground">
             <p>{formatRelativeDate(vehicle?.created_at)}</p>
@@ -77,21 +81,21 @@ export default function VehicleDetailsSection({ vehicle }) {
       {/* QUICK SPECS */}
       <div className="grid grid-cols-2 gap-3 w-full">
         <SpecCard
-          icon={<Fuel className="h-5 w-5" />}
-          label="Fuel"
-          value={vehicle?.fuel}
-        />
-
-        <SpecCard
-          icon={<Gauge className="h-5 w-5" />}
-          label="Transmission"
-          value={vehicle?.transmission}
+          icon={<Calendar className="h-5 w-5" />}
+          label="Registration Year"
+          value={vehicle?.year}
         />
 
         <SpecCard
           icon={<BadgeCheck className="h-5 w-5" />}
           label="Registration"
           value={vehicle?.registration}
+        />
+
+        <SpecCard
+          icon={<Fuel className="h-5 w-5" />}
+          label="Fuel"
+          value={vehicle?.fuel}
         />
 
         <SpecCard
@@ -113,15 +117,21 @@ export default function VehicleDetailsSection({ vehicle }) {
 
           <DetailRow label="Model" value={vehicle?.model} />
 
+          <DetailRow label="Registration" value={vehicle?.registration} />
+
+          <DetailRow label="Registration Year" value={vehicle?.year} />
+
+          <DetailRow label="Locality" value={vehicle?.locality} />
+
+          <DetailRow label="District" value={vehicle?.city} />
+
           <DetailRow label="Fuel" value={vehicle?.fuel} />
 
           <DetailRow label="Transmission" value={vehicle?.transmission} />
 
-          <DetailRow label="Registration" value={vehicle?.registration} />
-
           <DetailRow label="Category" value={vehicle?.category} />
 
-          <DetailRow label="Seller" value={vehicle?.seller} />
+          <DetailRow label="Sold by" value={vehicle?.seller} />
         </div>
       </div>
       <div className="w-full max-w-3xl mx-auto">

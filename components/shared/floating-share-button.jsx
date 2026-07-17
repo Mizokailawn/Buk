@@ -41,7 +41,7 @@ export default function FloatingShareButton({
 
         onClick={handleShare}
         aria-label="Share"
-        className="fixed bottom-28 right-4 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition hover:scale-105 active:scale-95"
+        className="fixed bottom-35 right-4 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition hover:scale-105 active:scale-95"
       >
         <Share2 className="h-6 w-6" />
       </Button>

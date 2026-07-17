@@ -20,7 +20,7 @@ export default function VehicleImageCarousel({ vehicle }) {
     );
   }
   return (
-    <div className="flex aspect-video overflow-hidden h-full w-screen px-2 pt-2">
+    <div className="flex aspect-video overflow-hidden h-full w-screen lg:w-6xl px-2 pt-2">
       <Carousel
         pagination
         onSlideChange={(swiper) => {

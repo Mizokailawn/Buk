@@ -89,7 +89,7 @@ export default function VehicleStatusToggle({
             <AlertDialogDescription>
               {pendingStatus === "sold"
                 ? "This vehicle will no longer be visible to the public."
-                : "This vehicle will become visible to the public again."}
+                : "This vehicle will be visible to the public again."}
             </AlertDialogDescription>
           </AlertDialogHeader>
 

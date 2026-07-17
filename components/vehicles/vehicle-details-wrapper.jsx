@@ -5,8 +5,8 @@ export async function VehicleDetailsWrapper({ params }) {
   const { id } = await params;
   const vehicle = await GetPublicVehicleById(id);
 
-  return (
-    <div className="flex max-w-6xl mx-auto">
+  return (    
+    <div className="flex mx-auto">
       <VehicleDetails vehicle={vehicle} />
     </div>
   );
