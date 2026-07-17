@@ -222,7 +222,7 @@ function FilterSheetForm({ currentFilters, filterOptions, params, setOpen }) {
           </div>
         </section>
 
-        <Accordion type="multiple" className="w-full" defaultValue={["brand"]}>
+        <Accordion type="multiple" className="w-full">
           {filterSections.map((section) => (
             <AccordionItem
               key={section.key}
@@ -234,7 +234,7 @@ function FilterSheetForm({ currentFilters, filterOptions, params, setOpen }) {
                   {section.title}
                 </div>
                 {draft[section.key].length > 0 && (
-                <div className="flex h-6 w-6 items-center justify-center text-sm border-1 text-muted-foreground rounded-full">
+                <div className="flex h-6 w-6 items-center justify-center text-sm border text-muted-foreground rounded-full">
                     {draft[section.key].length}
                 </div>
                 )}

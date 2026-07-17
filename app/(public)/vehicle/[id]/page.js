@@ -46,13 +46,14 @@ export async function generateMetadata({ params }) {
     description: `₹${formatPrice(vehicle?.price)}`,
 
     openGraph: {
-      title: `${brand} ${model}for sale`,
+      title: `${brand} ${model} for sale`,
       description: `₹${formatPrice(vehicle?.price)} • ${vehicle?.city}`,
       images: [
                 {
                   url: vehicle?.thumbnail_url,
                   width: 1200,
                   height: 630,
+                  alt: "Vehicle Image",
                 },
               ],
       type: "website",
@@ -69,7 +70,7 @@ export async function generateMetadata({ params }) {
 
 export default function Page({ params }) {
   return (
-    <div className="flex justify-center py-17 min-h-svh max-w-6xl mx-auto">
+    <div className="flex justify-center py-17 min-h-svh max-w-lg mx-auto">
       <VehicleDetailTracker />
       <Suspense fallback={
           <div className="flex min-h-svh justify-center items-center w-full mx-auto my-auto">

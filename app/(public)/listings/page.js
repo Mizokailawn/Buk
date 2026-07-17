@@ -35,7 +35,7 @@ export async function generateMetadata({ searchParams }) {
   const modelName = capitalize(model)
 
 
-  let title = "Used Vehicles in for Sale in Mizoram · BUK";
+  let title = "Listings || BUK";
   let description =
     "Buy and sell used cars, bikes, scooters and other vehicles across Mizoram.";
 
