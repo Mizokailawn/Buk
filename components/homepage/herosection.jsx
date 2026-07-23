@@ -11,7 +11,7 @@ export default function HeroSection() {
             Built For Mizoram
           </h2>
           <h1 className="text-2xl sm:text-2xl lg:text-5xl font-bold tracking-tight text-foreground leading-tight">
-            SIMPLE. EASY. FREE
+            BUK - SIMPLE. EASY. FREE
           </h1>
 
           {/* Subtext */}
