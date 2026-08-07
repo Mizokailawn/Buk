@@ -10,9 +10,9 @@ import DeleteVehicleButton from "./delete-vehicle-button";
 
 function UserVehicleCard({ vehicle }) {
   return (
-    <Card className="flex flex-col overflow-hidden aspect-square rounded-2xl bg-card shadow-sm hover:shadow-md transition-all cursor-pointer gap-2 pt-0 pb-2">
+    <Card className="flex flex-col overflow-hidden rounded-2xl bg-card shadow-sm hover:shadow-md transition-all cursor-pointer gap-2 pt-0 pb-2">
       {/* IMAGE */}
-      <div className="relative w-full h-full overflow-hidden">
+      <div className="relative w-full aspect-video overflow-hidden">
         <Link href={`/vehicle/${vehicle?.id}`} className="block">
           <Image
             src={vehicle?.thumbnail_url || "/placeholder-car.jpg"}

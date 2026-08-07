@@ -9,7 +9,7 @@ export default function AboutUs() {
   ];
 
   const whatWeDoNotDo = [
-    "Process payments",
+    "Process financial transactions between sellers and buyers",
     "Hold money in escrow",
     "Participate in negotiations",
     "Verify vehicle condition",

@@ -82,11 +82,7 @@ export default function VehicleFormFields({
       <div className="space-y-2">
         <label className="text-sm font-medium">Locality</label>
 
-        <Input
-          type="text"
-          inputMode="numeric"
-          placeholder="Eg. Zotlang, Zarkawt, Bawngkawn etc..."
-          {...register("locality")}
+        <Input placeholder="Eg. Zotlang, Zarkawt, Bawngkawn etc..." {...register("locality")}
         />
 
         {errors.locality && (

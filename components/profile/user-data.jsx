@@ -11,7 +11,7 @@ export default function UserData({user}) {
   };
   
   return (
-    <div className="relative mb-8 overflow-hidden rounded-3xl bg-linear-to-r from-purple-900 via-indigo-950 to-background border border-indigo-950 p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 shadow-md">
+    <div className="relative mb-8 overflow-hidden rounded-3xl bg-linear-to-r from-purple-900/90 via-blue-900/90 to-purple-900/90 border border-indigo-950 p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 shadow-md">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,92,246,0.15),transparent)] pointer-events-none" />
         
         <Avatar className="h-24 w-24 border-2 border-purple-500 shadow-lg text-xl">
@@ -21,12 +21,12 @@ export default function UserData({user}) {
         </Avatar>
 
         <div className="flex-1 text-center md:text-left space-y-2">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-300">
             {user.user_metadata?.full_name || user.email?.split("@")[0] || "User Profile"}
           </h1>
-          <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-muted-foreground">
+          <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-gray-300">
             <span className="flex items-center gap-1.5">
-              <Mail className="h-4 w-4 text-purple-400" />
+              <Mail className="h-4 w-4 text-gray-300" />
               {user.email}
             </span>
             {user.phone && (

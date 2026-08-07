@@ -12,7 +12,7 @@ export default function Home() {
       <div>
         <Rides />
       </div>
-      <footer>
+      <footer className="flex justify-center">
         <Footer />       
       </footer>
     </div>

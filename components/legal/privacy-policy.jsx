@@ -168,10 +168,10 @@ export default function PrivacyPolicy() {
           </div>
         </div>
         <a 
-          href="mailto:support@yourdomain.com" 
+          href="mailto:support@lalda.in" 
           className="bg-purple-500 hover:bg-purple-700 text-foreground font-medium text-sm px-4 py-2.5 rounded-xl transition duration-200"
         >
-          support@yourdomain.com
+          support@lalda.in
         </a>
       </div>
     </section>

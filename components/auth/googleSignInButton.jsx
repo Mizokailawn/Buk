@@ -12,6 +12,8 @@ export function GoogleSignInButton() {
   const handleSignIn = async () => {
     if (loading) return;
 
+    console.log("ORIGIN: ", window.location.origin);
+
     try {
       setLoading(true);
       await signInWithGoogle();

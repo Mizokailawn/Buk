@@ -13,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "BUK - Used car marketplace for Mizoram",
+  title: "BUK",
   description: "Used car marketplace for Mizoram",
 };
 
