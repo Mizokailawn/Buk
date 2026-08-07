@@ -26,3 +26,10 @@ export const BOTTOM_SHEET_ITEMS = [
   {label: "About Us", href: "/about-us", icon: Info},
   {label: "Disclaimer", href: "/legal/disclaimer", icon: AlertTriangle}
 ]
+
+export const MENU_ITEMS = [
+  {label: "Profile", href: "/profile", icon: UserCircle},
+  {label: "Contact Us", href: "/contact-us", icon: MessageCircle},
+  {label: "About Us", href: "/about-us", icon: Info},
+  {label: "Disclaimer", href: "/legal/disclaimer", icon: AlertTriangle},  
+]

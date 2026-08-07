@@ -13,12 +13,9 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { UpdateVehicleStatus } from "@/action/edit-vehicle";
+import { toast } from "sonner";
 
-
-export default function VehicleStatusToggle({
-  vehicleId,
-  initialStatus,
-}) {
+export default function VehicleStatusToggle({ vehicleId, initialStatus }) {
   const [status, setStatus] = useState(initialStatus);
   const [open, setOpen] = useState(false);
   const [pendingStatus, setPendingStatus] = useState(null);
@@ -26,8 +23,7 @@ export default function VehicleStatusToggle({
   const [isPending, startTransition] = useTransition();
 
   function handleToggle() {
-    const nextStatus =
-      status === "active" ? "sold" : "active";
+    const nextStatus = status === "active" ? "sold" : "active";
 
     setPendingStatus(nextStatus);
     setOpen(true);
@@ -43,13 +39,21 @@ export default function VehicleStatusToggle({
     setOpen(false);
 
     startTransition(async () => {
-      const result = await UpdateVehicleStatus(
-        vehicleId,
-        pendingStatus
-      );
+      const result = await UpdateVehicleStatus(vehicleId, pendingStatus);
 
-      if (!result.success) {
+      // if (!result.success) {
+      //   setStatus(previousStatus);
+      // }
+
+      if (result.success) {
+        toast.success(
+          pendingStatus === "active"
+          ? "Your vehicle is now Active"
+          : "Your vehicle is now marked as Sold"
+        )
+      } else {
         setStatus(previousStatus);
+        toast.error("Failed to update vehicle status. Please try again.");
       }
     });
   }
@@ -59,25 +63,25 @@ export default function VehicleStatusToggle({
   return (
     <>
       <div
-        className={`flex items-center gap-2 justify-between border rounded-full px-3 py-1 text-xs font-medium text-white ${
-          isActive ? "" : "bg-muted text-foreground"
+        className={`flex items-center gap-2 justify-between border rounded-full px-3 py-1 text-sm md:text-xs font-medium ${
+          isActive ? "" : "bg-muted text-shadow-muted-foreground"
         }`}
       >
-        <span>
-          {isActive ? "Active" : "Sold"}
-        </span>
-
+        <span>{isActive ? "Active" : "Sold"}</span>
+        
         <Switch
           checked={isActive}
           disabled={isPending}
-          onCheckedChange={handleToggle}          
+          onCheckedChange={handleToggle}
+          className="
+        data-[state=checked]:[&>span]:bg-purple-600
+          data-[state=unchecked]:[&>span]:bg-muted-foreground
+        [&>span]:bg-white
+  "
         />
       </div>
 
-      <AlertDialog
-        open={open}
-        onOpenChange={setOpen}
-      >
+      <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
@@ -94,13 +98,9 @@ export default function VehicleStatusToggle({
           </AlertDialogHeader>
 
           <AlertDialogFooter>
-            <AlertDialogCancel>
-              Cancel
-            </AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
 
-            <AlertDialogAction
-              onClick={confirmChange}
-            >
+            <AlertDialogAction onClick={confirmChange}>
               Confirm
             </AlertDialogAction>
           </AlertDialogFooter>

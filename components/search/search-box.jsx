@@ -12,7 +12,7 @@ export default function SearchBox() {
   return (
     <Link
       href="/listings?search=1"
-      className="flex items-center w-50 h-10 px-2 rounded-full border-2 text-muted-foreground text-sm"
+      className="flex items-center w-50 md:w-100 h-10 px-2 rounded-full border-2 text-muted-foreground text-sm"
     >
       <SearchIcon className="size-5 mr-2 shrink-0" />
 

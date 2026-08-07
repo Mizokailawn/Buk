@@ -3,9 +3,9 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="border-t bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="flex flex-col items-center mx-auto max-w-6xl px-4 py-4">
         {/* Brand */}
-        <div className="mb-6">
+        <div className="flex flex-col items-center mb-6">
           <h2 className="text-lg font-semibold">BUK</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Buy and sell used vehicles across Mizoram.

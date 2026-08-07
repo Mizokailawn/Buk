@@ -5,9 +5,9 @@ import {
   MessageCircle, 
   Clock, 
   MapPin, 
-  ExternalLink,
   ShieldCheck
 } from 'lucide-react';
+import { SiWhatsapp } from "react-icons/si";
 
 export default function ContactUs() {
   const phoneNumber = "8729821784";
@@ -36,21 +36,21 @@ export default function ContactUs() {
           <div className="bg-card p-6 rounded-xl border border-muted-foreground flex flex-col justify-between h-48 transition-all hover:border-purple-500">
             <div>
               <div className="flex items-center space-x-2 text-emerald-500 font-bold mb-3">
-                <MessageCircle className="h-5 w-5" />
+                <SiWhatsapp className="h-5 w-5" />
                 <h4 className="text-foreground">WhatsApp Chat</h4>
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Chat with our support desk instantly for rapid troubleshooting or account help.
+                Chat with our support desk for rapid troubleshooting or account help.
               </p>
             </div>
             <a 
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center justify-between px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition duration-200"
+              className="mt-4 inline-flex items-center justify-center gap-2 px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition duration-200"
             >
-              <span>Message on WhatsApp</span>
-              <ExternalLink className="h-3 w-3" />
+              <SiWhatsapp className="h-4 w-4" />
+              <span>WhatsApp</span>
             </a>
           </div>
 
@@ -69,8 +69,8 @@ export default function ContactUs() {
               href={`tel:+91${phoneNumber}`}
               className="mt-4 inline-flex items-center justify-center space-x-2 px-3 py-2 bg-purple-500 hover:bg-purple-600 text-foreground font-semibold text-xs rounded-lg transition duration-200"
             >
-              <Phone className="h-3 w-3" />
-              <span>Call {formattedPhone}</span>
+              <Phone className="h-4 w-4" />
+              <span>Call</span>
             </a>
           </div>
 
@@ -89,7 +89,7 @@ export default function ContactUs() {
           <div className="bg-card p-4 rounded-xl border border-muted-foreground space-y-3 text-xs text-muted-foreground">
             <div className="flex justify-between items-center border-b border-muted-foreground/30 pb-2">
               <span>Monday – Saturday:</span>
-              <span className="text-foreground font-medium">9:00 AM – 6:00 PM IST</span>
+              <span className="text-foreground font-medium">9:30 AM – 4:30 PM IST</span>
             </div>
             <div className="flex justify-between items-center border-b border-muted-foreground/30 pb-2">
               <span>Sundays & Public Holidays:</span>
@@ -97,7 +97,7 @@ export default function ContactUs() {
             </div>
             <div className="flex items-start pt-1 text-muted-foreground">
               <MapPin className="h-4 w-4 text-purple-500 mr-2 mt-0.5 shrink-0" />
-              <span>Registered Operations: New Delhi, India</span>
+              <span>Place of Operation: Aizawl, Mizoram.</span>
             </div>
           </div>
         </div>
@@ -120,7 +120,7 @@ export default function ContactUs() {
             href="mailto:support@yourdomain.com"
             className="text-xs font-bold px-4 py-2.5 bg-card border border-muted-foreground hover:border-purple-500 rounded-xl transition duration-200 text-foreground"
           >
-            support@BUK.in
+            support@lalda.in
           </a>
         </div>
       </div>
