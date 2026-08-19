@@ -13,8 +13,7 @@ export const NAV_ITEMS = [
   { label: "Sell", href: "/sell", icon: PlusCircle },
 ];
 
-export const MORE_ITEMS = [
-  { label: "FAQs", href: "/faq", icon: HelpCircle },
+export const MORE_ITEMS = [  
   { label: "Terms and Conditions", href: "/legal/terms-and-conditions", icon: FileText },
   { label: "Privacy policy", href: "/legal/privacy-policy", icon: Shield },
   
